@@ -229,7 +229,7 @@ ggplot(raw_data, aes(longitude, latitude, col=Region)) +
 
 ```{r}
 ggplot(raw_data, aes(total_price))+
-  geom_histogram(binwidth = 25,col = "black", fill = "red")+
+  geom_histogram(binwidth = 50,col = "black", fill = "red")+
   scale_y_log10()+
   scale_x_continuous(labels = dollar_format(), n.breaks = 15)+
   labs(x="Average Daily Price",
