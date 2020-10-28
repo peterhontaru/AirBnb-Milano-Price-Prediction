@@ -25,6 +25,7 @@
 I've always been fascinated with the italian culture (and food!). So much so, that this year I've started learning Italian. While looking to work on a data science project, I found this dataset on kaggle and thought it would be interesting to dive into it. This might also count as very good research before I visit the city as well, at some point in the future, in order to ensure I don't pay any more than I have to, and thus, be able to spend more money on italian pasta and local experiences.
 
 
+
 ![YouTube Trending Page](_support files/milano.jpg)
 
 
@@ -63,4 +64,5 @@ I've always been fascinated with the italian culture (and food!). So much so, th
 Full analysis available:
 
 * at the following [link](http://htmlpreview.github.io/?https://github.com/peterhontaru/AirBnb-Milano-Price-Prediction/blob/master/AirBnb-Milan.html)
+* md document
 * in the **Exploratory-Data-Analysis.md** of this repo (however, I recommend previewing it at the link above since it is rendered as html)

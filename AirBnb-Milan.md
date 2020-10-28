@@ -17,8 +17,8 @@
         
         keep_md: true
         
-    title: "AirBnb - Milan Apartments"
-    subtitle: "Price Prediction Model"
+    title: "AirBnb - Milan - Price Prediction"
+    subtitle: "Exploratory Data Analysis and Price Prediction Model"
     author: "by Peter Hontaru"
 ---
 
@@ -39,40 +39,65 @@ knitr::opts_chunk$set(
 ```
 
 
+![AirBnb logo](_support files/airbnb.png)
+
+
 # Introduction
-
-
-## Why this dataset
-
-
-I've always been fascinated with the italian culture (and food!). So much so, that this year I've started learning Italian. While looking to work on a data science project, I found this dataset on kaggle and thought it would be interesting to dive into it. This might also count as very good research before I visit the city as well, at some point in the future, in order to ensure I don't pay any more than I have to, and thus, be able to spend more money on italian pasta and local experiences.
 
 
 ## Problem statement
 
-
-**We would like to predict the price at which an apartment should be rented, given a set of variables.**
-
-
-## Who would benefit from this analysis?
+,m;
+**Can we predict the price at which an apartment should be rented? If so, which variables influenced the price the most?**
 
 
-1. **Help landlords calculate the optimal price for their apartment**
-2. **Help tourists understand if they're getting a good deal**
-3. **Potentially useful EDA & Regression data for beginner/intermediate data scientists looking to explore what's possible** (although in no way do I consider myself an expert)
-4. **Provide a model that others might want to use if they were interested in other cities, as AirBnb data is fairly standardised**
+![Milano](_support files/milano.jpg)
+
+Thanks to Benjamin Voros for the picture.
+
+
+## Why this dataset?
+
+
+I've always been fascinated with the italian culture (and food!). So much so, that this year I've started learning Italian. While looking to work on a data science project, I found this dataset on kaggle and thought it would be interesting to dive into it.
+
+
+## Who is this project intended for?
+
+* **landlords** looking to calculate the optimal price for their apartment
+* **tourists** trying understand if they're getting a good deal
+* *those looking to find a model that might fit other datasets, since the AirBnb data is generally standardised across countries/cities*
+
 
 
 ## Summary:
 
-* 1
-* 2
-* 3
+* Region did not prove to be a significant predictor of the price. Rather, proximity to the city centre was seen as more important in being able to predict the price
+
+![1](figures/unnamed-chunk-10-1.png)
+
+* We used three different models in our project: Stepwise Regression, Gradient Boosting Machine and Random Forrest. The Random Forrest model was proven to be the best model in terms of Rsquared (0.46), MAE (\$30) and RMSE (\$42)
+
+![2](figures/unnamed-chunk-32-1.png)
+
+* why it didn't do well in the higher prices
+
+![3](figures/unnamed-chunk-39-1.png)
+
+* Important factors
+
+![3](figures/unnamed-chunk-34-1.png)
 
 
-## Dataset information
-Dataset available from, pulled by Antonio and representative of the AirBnb data in July 2019.
+## Next steps / Recommendations:
 
+Bla bla
+
+
+## Where did the data come from?
+
+Dataset available from  {r} [Kaggle] (https://www.kaggle.com/antoniokaggle/milan-airbnb-open-data-only-entire-apartments), made available by Antonio Mastrandrea and representative of the AirBnb data in July 2019.
+ 
 
 # Data import, tidying, cleaning
 
@@ -90,9 +115,6 @@ setwd("~/DS/AHT/Data")
 #import data
 raw_data <- read_csv("~/DS/AirBnb-Milano-Price-Prediction/raw data/Airbnb_Milan.csv")
 
-#input the coordinates for the centre of Milano
-Milano_City_Centre <- c(45.465, 9.185)
-
 #tidy up data
 raw_data <- raw_data %>%
         select(-X1, -room_type)%>%
@@ -105,10 +127,6 @@ raw_data <- raw_data %>%
                availability_60_perc = round(availability_60/60,2)*100,
                availability_90_perc = round(availability_90/90,2)*100,
                availability_365_perc = round(availability_365/365,2)*100)
-              #distance_from_city_centre = c(c(latitude, longitude) - c(45.27, 9.11)))
-
-#clear variables from the environment
-rm(Milano_City_Centre)
 ```
 
 
@@ -222,13 +240,13 @@ raw_data %>% summarise_all(~ sum(is.na(.))) %>% sum()
 ```
 
 
-Now that we've cleaned up the table a bit and added some columns that will help with data exploration, we can start by exploring and understanding our data.
+Now that we've tidied up the table and added some new features, we can start by exploring our data.
 
 
-# Exploratory Data Analysis
+# Exploratory Data Analysis (EDA)
 
 
-## Correlation
+## Correlation plot
 
 
 
@@ -251,7 +269,7 @@ p.mat <- cor_pmat(raw_data_corr)
 # Visualize the correlation matrix
 ggcorrplot(corr, method = "square", 
            ggtheme = ggplot2::theme_minimal, 
-           title = "We can observe some clear patterns",
+           #title = "We can observe some clear patterns",
            
            outline.col = "black",
            colors = c("blue","white", "red"),
@@ -269,12 +287,14 @@ ggcorrplot(corr, method = "square",
            insig = "blank")
 ```
 
-<img src="figures/unnamed-chunk-6-1.png" width="100%" />
+<img src="figures/unnamed-chunk-7-1.png" width="100%" />
 
 
-Unsurprisingly, the total price correlated with the number of bedrooms, bathrooms and the number of people it accommodates. Note that there was a higher correlation with the number of bathrooms than the bedrooms. This could be due to the fact that some apartments have an artificially higher number of bedrooms, but not bathrooms.
+Key findings:
 
-Also, to be noted that there is a positive correlation between the superhost status and the rating. This might mean that superhost are more likely to be experienced landlords and thus be able to improve the customer experience.
+* unsurprisingly, the total price correlates with the number of bedrooms, bathrooms and the number of people it accommodates
+* to note that there was a higher correlation with the number of bathrooms than the bedrooms. This could be due to the fact that some apartments have an artificially higher number of bedrooms, but not bathrooms
+* there is a positive correlation between the superhost status and the rating. This might mean that superhosts are more likely to be experienced landlords and thus be able to provide a better customer experience
 
 
 ## What does the distribution of the apartments look like?
@@ -293,7 +313,7 @@ ggplot(raw_data, aes(longitude, latitude, col=Region)) +
               legend.position = "top")
 ```
 
-<img src="figures/unnamed-chunk-7-1.png" width="100%" />
+<img src="figures/unnamed-chunk-8-1.png" width="100%" />
 
 
 ## What does the price distribution look like across all regions?
@@ -306,11 +326,11 @@ ggplot(raw_data, aes(total_price))+
   scale_y_log10()+
   scale_x_continuous(labels = dollar_format(), n.breaks = 15)+
   labs(x="Average Daily Price",
-       y= "Number of Apartments",
-       title = "While most of the data is below $394 (98%), there are some outliers all the way to >$3,000 (log scale)")
+       y= "Number of apartments",
+       title = "While most of the data is below $394 (98%), there are some outliers of over $3,000 (log scale)")
 ```
 
-<img src="figures/unnamed-chunk-8-1.png" width="100%" />
+<img src="figures/unnamed-chunk-9-1.png" width="100%" />
 
 
 ## How does the Price differ between Regions?
@@ -330,11 +350,11 @@ ggplot(data_by_region, aes(Region, count, fill = Region))+
         geom_label(aes(Region, avg_price*10, label = paste("$", round(avg_price), sep = "")), fill = "black", col = "white")+
         labs(y = "Total apartments / Average Daily Price",
              x = "Region",
-             title = "Region 1 has a higher average than all others due its central location and it is also the most common")+
+             title = "Region 1 has a higher average than all others due its central location and it is the most prominent")+
         theme(legend.position = "none")    
 ```
 
-<img src="figures/unnamed-chunk-9-1.png" width="100%" />
+<img src="figures/unnamed-chunk-10-1.png" width="100%" />
 
 
 ## What is the Price Variability of each Region?
@@ -347,14 +367,14 @@ ggplot(raw_data, aes(reorder(Region, desc(total_price)), total_price, fill = Reg
         scale_y_continuous(labels = dollar_format())+
         labs(y = NULL,
              x = "Region",
-             title = "We can observe some very high outliers for almost all of the 9 regions")+
+             title = "We can observe outliers across all of the 9 regions")+
         theme(legend.position = "none")
 ```
 
-<img src="figures/unnamed-chunk-10-1.png" width="100%" />
+<img src="figures/unnamed-chunk-11-1.png" width="100%" />
 
 
-Let's break down our price range into percentiles in order to better understand how much it varies:
+Let's break down our price range into percentiles in order to better understand its distribution:
 
 
 
@@ -436,17 +456,17 @@ ggplot(raw_data, aes(reorder(Region, desc(total_price)), total_price, fill = Reg
         scale_y_continuous(labels = dollar_format())+
         labs(y = NULL,
              x = "Region",
-             title = "Region 1 also has a higher price range, not just a higher average and median \nRegion 2 and 9 seem to have a slightly lower median and IQR")+
+             title = "Region 1 also has a higher price range, average and median \nRegion 2 and 9 have a slightly lower median and IQR")+
         theme(legend.position = "none")
 ```
 
-<img src="figures/unnamed-chunk-12-1.png" width="100%" />
+<img src="figures/unnamed-chunk-13-1.png" width="100%" />
 
 
 ## Could the Zipcode be a better predictor of Price than the Region?
 
 
-Given the structure of Milan, it could be posssible that even within a region, prices differ significantly (ie. the inner side vs outer side). Thus, zipcodes might help us understand the data better.
+Given the structure of Milan, it could be posssible that even within a region, prices differ significantly (ie. the half closer to the city centre and the one opposite). Thus, zipcodes might help us understand the data better by digging one levle down from region.
 
 
 
@@ -472,12 +492,13 @@ ggplot(data = data_zipcode_quantile_group, aes(zipcode_quantile_group, count, fi
         geom_label(aes(zipcode_quantile_group, avg_price*15, label = paste("$", round(avg_price), sep = "")), fill = "black", col = "white")+
         scale_fill_gradient(low = "yellow", high = "red")+
         labs(y = "Total apartments",
-             x = "Zipcode quantile",
-             title = "The zipcode quantile with the highest prices has a higher proportion out of all apartments (45%)")+
+             x = "Zipcode quintile",
+             title = "The zipcode quintile with the highest prices has a higher proportion out of all apartments (45%)",
+             subtitle = "Each zipcode quintile contains an equal amount of zipcodes")+
         theme(legend.position = "none")
 ```
 
-<img src="figures/unnamed-chunk-13-1.png" width="100%" />
+<img src="figures/unnamed-chunk-14-1.png" width="100%" />
 
 
 Let's visualise this data on the map!
@@ -490,26 +511,24 @@ ggplot(raw_data, aes(longitude, latitude)) +
         labs(x="", 
              y="",
              col = "Zipcode Quantile Group",
-             title="Rather than Region, price difference might be better predicted by proximity to the City Centre\nThis implies that the inner areas of each Region has a higher price than the outer areas")+
+             title="Rather than Region, price difference might be better predicted by proximity to the city centre\nThis implies that the inner areas of each Region have a higher average price than the outer areas")+
         scale_colour_gradient(low = "yellow", high = "red")+
         theme(legend.position = "top",
               axis.ticks.y = element_blank(),axis.text.y = element_blank(),
               axis.ticks.x = element_blank(),axis.text.x = element_blank())
 ```
 
-<img src="figures/unnamed-chunk-14-1.png" width="100%" />
+<img src="figures/unnamed-chunk-15-1.png" width="100%" />
 
 ```r
               #plot.title = element_text(lineheight=.8, face="bold", vjust=1))
 ```
 
 
-Irrespective of region, the highest prices seem to be those within the zipcodes closer to the city centre (Region 1 is an exception because it is placed in the City Centre). An even better alternative would've been proximity to the city centre based on latitude and longitude. 
-
-In simple terms, this means that if your apartment is located within these zipcodes, you could charge more. However, price alone is not that interesting, if no one books the apartment. This brings us to the next question:
+Irrespective of region, the highest prices seem to be those within the zipcodes closer to the city centre. This implies that if your apartment is located within these zipcodes, you could charge more. However, price alone is not that interesting, if no one books the apartment. This brings us to the next question:
 
 
-## What does the availability look like over a year, irrespective of area? 
+## What does the Availability look like over a year, irrespective of Region/Zipcode? 
 
 
 
@@ -518,18 +537,20 @@ In simple terms, this means that if your apartment is located within these zipco
         geom_histogram(aes(y = (..count..)/sum(..count..)), binwidth = 10, col = "black") + 
         scale_fill_gradient(low="yellow", high="red")+
         scale_y_continuous(labels = percent)+
-   labs(x = "Days available in the next year (buckets of 10 days)",
-        y = "% of all apartments available",
-        title = "There is a trend for houses to be either available for too long or too little")
+   labs(x = "Total days available to book in the next 365 days (buckets of 10 days)",
+        y = "% of all apartments",
+        fill = "Number of apartments",
+        title = "There is a trend for houses to be either available for too long or too little")+
+  theme(legend.position = "top")
 ```
 
-<img src="figures/unnamed-chunk-15-1.png" width="100%" />
+<img src="figures/unnamed-chunk-16-1.png" width="100%" />
 
 
-There could be a multitude of reasons for this to happen whether due to popularity or places being closed. For the ones available for almost a full year, could be lack of popularity or a new addition.
+There could be a multitude of reasons for this to happen whether due to popularity, new addiiton or places being closed but not removed from the website. Unfortunately, we do not have any data to dig into it further.
 
 
-## Are there any differences between the Regions/Zipcode Quantiles? {.tabset .tabset-fade .tabset-pills}
+## Are there any differences in Availability between the different Areas? {.tabset .tabset-fade .tabset-pills}
 
 
 ### by Region {-}
@@ -537,40 +558,15 @@ There could be a multitude of reasons for this to happen whether due to populari
 
 
 ```r
-#is there anything we can do with this?
-#2) max latitude is a great idea to use for text on map
 ggplot(raw_data, aes(longitude, latitude)) +  
   geom_jitter(aes(colour = availability_365_perc), alpha = 0.4, width = 0.01, height = 0.01)+
   labs(x="", 
        y="",
        col = "Availability (%) in the next 365 days",
-       title="There doesn't seem to be a trend in availability between the different areas",
-       subtitle = "Data points for each region are much narrower on the map but they were spread out so that all points can be observed")+
+       title="There doesn't seem to be a trend in availability between the different Regions",
+       subtitle = "Data points for each region are much narrower on the map but they were spread out slightly so that all points can be observed")+
   scale_colour_gradient(low = "yellow", high = "red")+
   facet_wrap(.~Region)+
-  theme(axis.ticks.y = element_blank(),axis.text.y = element_blank(),
-        axis.ticks.x = element_blank(),axis.text.x = element_blank(),
-        plot.title = element_text(lineheight=.8, face="bold", vjust=1),
-        legend.position = "top")
-```
-
-<img src="figures/unnamed-chunk-16-1.png" width="100%" />
-
-
-### by Zipcode Quantile Group {-}
-
-
-
-```r
-ggplot(raw_data, aes(longitude, latitude)) +  
-  geom_jitter(aes(colour = availability_365_perc), alpha = 0.4, height = 0.01, width = 0.01)+
-  labs(x="", 
-       y="",
-       col = "Availability (%) in the next 365 days",
-       title="There doesn't seem to be a trend in availability between the different areas",
-       subtitle = "Data points for each region are much narrower on the map but they were spread out so that all points can be observed")+
-  scale_colour_gradient(low = "yellow", high = "red")+
-  facet_wrap(.~zipcode_quantile_group)+
   theme(axis.ticks.y = element_blank(),axis.text.y = element_blank(),
         axis.ticks.x = element_blank(),axis.text.x = element_blank(),
         plot.title = element_text(lineheight=.8, face="bold", vjust=1),
@@ -580,11 +576,33 @@ ggplot(raw_data, aes(longitude, latitude)) +
 <img src="figures/unnamed-chunk-17-1.png" width="100%" />
 
 
+### by Zipcode Quintile Group {-}
+
+
+
+```r
+ggplot(raw_data, aes(longitude, latitude)) +  
+  geom_jitter(aes(colour = availability_365_perc), alpha = 0.4, height = 0.01, width = 0.01)+
+  labs(x="", 
+       y="",
+       col = "Availability (%) in the next 365 days",
+       title="There doesn't seem to be a trend in availability between the different Zipcode Quintile Groups",
+       subtitle = "Data points for each region are much narrower on the map but they were spread out slightly so that all points can be observed")+
+  scale_colour_gradient(low = "yellow", high = "red")+
+  facet_wrap(.~zipcode_quantile_group)+
+  theme(axis.ticks.y = element_blank(),axis.text.y = element_blank(),
+        axis.ticks.x = element_blank(),axis.text.x = element_blank(),
+        plot.title = element_text(lineheight=.8, face="bold", vjust=1),
+        legend.position = "top")
+```
+
+<img src="figures/unnamed-chunk-18-1.png" width="100%" />
+
 
 There doesn't seem to be a clear pattern, as there is a fairly equal mix of houses with high **and** low availability between all regions. Let's have a quick look at the aggregated data.
 
 
-## What does the aggregated availability look like over 365 days? {.tabset .tabset-fade .tabset-pills}
+## What does the aggregated Availability look like over 365 days? {.tabset .tabset-fade .tabset-pills}
 
 
 ### by Region {-}
@@ -607,7 +625,7 @@ ggplot(data = data_availability_by_region, aes(Region, diff_from_mean, fill = di
         theme(legend.position = "none")
 ```
 
-<img src="figures/unnamed-chunk-18-1.png" width="100%" />
+<img src="figures/unnamed-chunk-19-1.png" width="100%" />
 
 
 ### by Zipcode Quantile Group {-}
@@ -630,17 +648,14 @@ ggplot(data = data_availability_by_zipcode_quantile_group, aes(zipcode_quantile_
         theme(legend.position = "none")
 ```
 
-<img src="figures/unnamed-chunk-19-1.png" width="100%" />
+<img src="figures/unnamed-chunk-20-1.png" width="100%" />
 
 ```r
 #maybe add n = sample size
 ```
 
 
-From the ***by Zipcode Quantile Group*** graph, we can see that people tend to book closer to the city centre (although there is a much higher sample size). At the same time, we can see from the ***by Region*** graph that they don't necessarily want to be in the Region 1, where the prices are also considerably higher.
-
-
-## What type of Extra Services are there available during an AirBnb stay in Milan?
+## What type of extra Services are there available during an AirBnb stay in Milan?
 
 
 
@@ -658,12 +673,12 @@ ggplot(data_Extras, aes(Extras, Availability))+
   scale_fill_gradient(low="red", high="yellow")+
   theme(legend.position = "none")+
   labs(x=NULL,
-       y= "Availability (%)",
-       title = "Since most places have the services we'd normally want and need (ie. Heating/Kitchen/WiFi), \nwe expect them to not be very important in our price prediction model")+
+       y= "% of apartments that offer the service",
+       title = "Since most places have the services we'd normally want and need (ie. Heating, Kitchen), \nwe do not expect them to be very important in our price prediction model")+
   coord_flip()
 ```
 
-<img src="figures/unnamed-chunk-20-1.png" width="100%" />
+<img src="figures/unnamed-chunk-21-1.png" width="100%" />
 
 
 ## Are there any differences in Survey Ratings? {.tabset .tabset-fade .tabset-pills}
@@ -683,7 +698,7 @@ ggplot(raw_data, aes(review_scores_rating, Region, fill = factor(stat(quantile))
   scale_fill_viridis_d(name = "Quartiles")
 ```
 
-<img src="figures/unnamed-chunk-21-1.png" width="100%" />
+<img src="figures/unnamed-chunk-22-1.png" width="100%" />
 
 
 ### Zoomed in axis (50-100) {-}
@@ -701,7 +716,7 @@ ggplot(raw_data, aes(review_scores_rating, Region, fill = factor(stat(quantile))
   coord_cartesian(xlim = c(70,100))
 ```
 
-<img src="figures/unnamed-chunk-22-1.png" width="100%" />
+<img src="figures/unnamed-chunk-23-1.png" width="100%" />
 
 
 # Regression Model
@@ -710,7 +725,7 @@ ggplot(raw_data, aes(review_scores_rating, Region, fill = factor(stat(quantile))
 ## Prepare our model
 
 
-We need to remove the variables that were related to the price (ie. cleaning_fee_perc and security_perc) as well as the ones that are simply variations of a specific variable (ie. we shouldn't keep both absolute availability and relative availability due to multicolinearity).
+We need to remove the variables that were related to the price (ie. cleaning_fee_perc and security_perc) as well as the ones that are simply variations of another variable (ie. we shouldn't keep both absolute availability and relative availability due to multicollinearity).
 
 
 
@@ -732,15 +747,18 @@ raw_data_model <- raw_data %>%
 We've seen that while most of the data is under \$400 (>98%), there are some extreme outliers up to \$3,000 that might affect our model. To improve the accuracy of our model, we can remove the highest 2% of the prices as we do not want to tailor this model to the luxury market for a couple reasons: 
 
 * if you're a tourist, you're unlikely to be checking online prices if you can even consider paying ~$3,000 a night
-* similarly, as a landlord, you probably don't need to compare your price to others'
+* similarly, as a landlord of a luxury property, you probably don't need to compare your price to others'
 * there is very limited data
 * AirBnb's target market isn't focused on luxurious escapes
 
 
-## Split Data
+## Split our dataset
 
 
-We need to split the dataset so that we have a train dataset of 75% of the raw data to train our prediction model on and 25% of the raw data to test it.
+Let's split the dataset into the following:
+
+* a train dataset of 75% of the raw data to train our prediction model on
+* a test dataset of 25% of the raw data to then test it on
 
 
 
@@ -758,10 +776,10 @@ y <- train_data$total_price
 ```
 
 
-## Pre-process
+## Pre-processing
 
 
-I use some basic standardisation offered by the caret package such as **centering** (subtract mean from values) and **scaling** (divide values by standard deviation) the data.
+Let's use some basic standardisation offered by the caret package such as **centering** (subtract mean from values) and **scaling** (divide values by standard deviation) the data.
 
 
 
@@ -784,9 +802,9 @@ train_data$total_price <- y
 ## Resampling
 
 
-We will perform a 10-fold Cross Validation 5 times. 
+We will perform a 10-fold Cross Validation 5 times. This means we will be dividing the training dataset randomly into 10 parts, use each of 10 parts as a "testing dataset" for the model and "train" on the remaining 9. 
 
-This means we will be dividing the training dataset randomly into 10 parts and then using each of 10 parts as testing dataset for the model trained on remaining 9. Essentially, we are "pretending" that some of our data is new and use the rest of the data to model on. We then take the average of the 10 error terms thus obtained and repeat this process 5 times. Doing it more than once will give a more realistic sense of how the model will perform on new data.
+Essentially, we are "pretending" that some of our data is new and use the rest of the data to model on. We then take the average error of each of the 10 models and repeat this process 5 times. Doing it more than once will give a more realistic sense of how the model will perform on new data.
 
 
 
@@ -842,7 +860,7 @@ ggplot(test_data2, aes(actual_total_price, predicted_total_price))+
        y = "Predicted Price")
 ```
 
-<img src="figures/unnamed-chunk-28-1.png" width="100%" />
+<img src="figures/unnamed-chunk-29-1.png" width="100%" />
 
 
 ## Model 2 - Gradient Boosting Machine
@@ -892,10 +910,10 @@ ggplot(test_data2, aes(actual_total_price, predicted_total_price))+
        y = "Predicted Price")
 ```
 
-<img src="figures/unnamed-chunk-30-1.png" width="100%" />
+<img src="figures/unnamed-chunk-31-1.png" width="100%" />
 
 
-## Model 3 - Random Forrest Regression
+## Model 3 - Random Forrest
 
 
 
@@ -939,7 +957,7 @@ ggplot(test_data2, aes(actual_total_price, predicted_total_price))+
        y = "Predicted Price")
 ```
 
-<img src="figures/unnamed-chunk-32-1.png" width="100%" />
+<img src="figures/unnamed-chunk-33-1.png" width="100%" />
 
 
 ## Compare the three Models
@@ -984,13 +1002,13 @@ summary(model_comparison)
 
 We can see that the Random Forrest is the most optimal model across the range of our data due to:
 
-* the best/lowest MAE and RSE
-* the best/highest Rsquared
+* the best (lowest) Mean Absolute Error (MAE) and Root Mean Square Error (RMSE)
+* the best (highest) coefficient of determinaton (Rsquared)
 
-We can also compare them quantitatively and see if the results of the Random Forrest model is significantly better than the other two.
+We can also compare the models quantitatively and see if the results of the Random Forrest model is significantly better than the other two.
 
 
-Random Forrest versus Stepwise:
+**Random Forrest versus Stepwise Regression:**
 
 
 
@@ -1013,7 +1031,7 @@ compare_models(rf_model, step_model)
 ```
 
 
-Random Forrest versus Gradient Boosting Machine:
+**Random Forrest versus Gradient Boosting Machine:**
 
 
 
@@ -1048,7 +1066,7 @@ plot(rf_model,
      main = "The most optimal model was that with 18 predictors")
 ```
 
-<img src="figures/unnamed-chunk-36-1.png" width="100%" />
+<img src="figures/unnamed-chunk-37-1.png" width="100%" />
 
 
 ## What were the most important variables?
@@ -1062,20 +1080,24 @@ plot(imp, top = 20,
      main = "Top 20 variables ranked by importance")
 ```
 
-<img src="figures/unnamed-chunk-37-1.png" width="100%" />
+<img src="figures/unnamed-chunk-38-1.png" width="100%" />
 
 
 We can see that the most important factors were:
 
-* bathrooms
-* bedrooms
-* accommodates
-* zipcode_quantile_group (rather than region)
+* the number of **bathrooms**
+* the number of **bedrooms**
+* the number of people it **accommodates**
+* the **zipcode_quantile_group** (rather than region)
 
-This shouldn't come as a surprise, as we expect location and the number of people it accommodates to be at the top. It might be surprising that the number of bathrooms was more important than bedrooms. This could be due to the number of bathroom representing a more accurate way to track the size of the property, as it is common make 4 bedrooms out of a 2 bedroom apartment, but not many artificially increase the number of the bathrooms. In other words, an apartment with 6 bedrooms is not necessarily very large, as it could be due to the fact that each room was split into two. However, chances are that if an apartment has 6 bathrooms, it is quite large!
+On large, these shouldn't come as a surprise, as we expect location and the number of people it accommodates to be somwhere at the top. 
+
+It might be surprising, though, that the number of bathrooms was more important than bedrooms. This could be due to the number of bathroom representing a more accurate way to track the size of the property, as it is common make 4 bedrooms out of a 2 bedroom apartment, but not many artificially increase the number of the bathrooms. 
+
+In other words, an apartment with 6 bedrooms is not necessarily very large, as it could be due to the fact that each room was split into two. However, chances are that if an apartment has 6 bathrooms, it is quite large! We've also seen this in the correlation plot, where there was a higher correlation between the average price and number of bathrooms than between the average price and number of bedrooms.
 
 
-## Visualising the distribution of the Residuals
+## Visualising the distribution of the Residuals (prdiction error)
 
 
 
@@ -1083,13 +1105,13 @@ This shouldn't come as a surprise, as we expect location and the number of peopl
 ggplot(test_data2, aes(Residuals))+
   geom_histogram(binwidth = 10,col = "black", fill = "red")+
   scale_x_continuous(labels = dollar_format(), n.breaks = 10)+
-  labs(x="Prediction error (Residual)",
-       y= "Occurences",
-       title = "It is more common to overpredict the Daily Price rather than underpredict \nMost data has an error of +/- 30$ but there are some outliers of over $100 and under $200",
+  labs(x="Residuals (prediction error)",
+       y= "Total occurences",
+       title = "It was more common for the model to overpredict the Daily Price rather than underpredict \nMost data has an error of +/- 30$ but there are some outliers of over $100 and under $200",
        subtitle = "Data is displayed in buckets of $10")
 ```
 
-<img src="figures/unnamed-chunk-38-1.png" width="100%" />
+<img src="figures/unnamed-chunk-39-1.png" width="100%" />
 
 
 ## Visualising the Random Forrest Model
@@ -1113,42 +1135,30 @@ ggplot(test_data2, aes(actual_total_price, Residuals))+
   geom_point(alpha = 0.5, color = "blue")+
   geom_smooth(method = "loess", col = "red", se = FALSE)+
   scale_x_continuous(labels = dollar_format())+
-  labs(title = "While the average prediction error is $30, there is a tendency to underpredict houses of over $250",
-       subtitle = "While the model isn't precide enough for an exact prediction, it is enough to provide an approximate range",
-       x = "Actual Price")
+  labs(title = "While the mean prediction error is +/- $30, there is a tendency to underpredict houses as the price increases",
+       subtitle = "Although the model isn't precide enough for an exact prediction, it is enough to provide an approximate range",
+       x = "Actual Price",
+       y="Residuals (prediction error)")
 ```
 
-<img src="figures/unnamed-chunk-39-1.png" width="100%" />
+<img src="figures/unnamed-chunk-40-1.png" width="100%" />
 
 
 ## Potential reasons for the low Rsquared:
 
 
-While this model has a similar or higher Rsquared values to that of other AirBnb datasets (Milano / New York), the value isn't perfect, which is shown by an average error of around $30. A few reasons for a "medium" Rsquared could be:
+While this model has a similar or higher Rsquared values to that of other AirBnb datasets (ie. Milan, New York), it is not high enough to provide an accurate predicton, shown by an average error of around $30. A few reasons for a *medium* Rsquared could be:
 
-* the size of the apartment (squared feet/meters) is not included in the dataset and thus, in the model; this might be a better predictor than the number of bedrooms
+* the size of the apartment (squared feet/meters) is not included in the dataset and thus, in the model; this might be a better predictor than the number of bedrooms/bathrooms
+* any special characteristics of an apartment (ie. a view of the Dome, in a popular square, in a historic building, etc)
 * human behaviour/decision making is known to be hard to predict accurately
-* pictures of the property not included - when is the last time we booked an apartment without seeing a picture? 
-* on top of pictures, we might also be influenced by the message within the property listing written by the landlord which this dataset does not account for
+* pictures of the property not included/assessed - when was the last time we booked an apartment without seeing a picture?
+* on top of pictures, we might also be influenced (positively or negatively) by the message within the property listing written by the landlord which this dataset does not account for
 
 
-## How to improve the project?
+## How can we improve on this project?
 
 * build a dashboard that would inform potential landlords of what price range to use
 * pull data from a different period of the year, as we know prices are seasonal
 * look at other types of accommodation, as this dataset only includes apartments
 * work upon the data limitations mentioned above which affected the Rsquared
-
-
-# Other things to look into
-
-* frequency plot of errors
-* residuals vs actuals
-
-* compare against that of others with same dataset (python or R)
-* benchmark against others airbnb datasets (New York)
-
-* AirBNB picture
-* picture of milano somewhere
-
-* summary

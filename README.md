@@ -18,6 +18,22 @@ experiences.
 
 ![YouTube Trending Page](_support%20files/milano.jpg)
 
+``` r
+knitr::include_graphics("_support files/milano.jpg")
+```
+
+<div class="figure">
+
+<img src="_support files/milano.jpg" alt="Figure 2: This is" width="3385" />
+
+<p class="caption">
+
+Figure 2: This is
+
+</p>
+
+</div>
+
 ## Problem statement
 
 **We would like to predict the price at which an apartment should be
@@ -59,6 +75,7 @@ Full analysis available:
 
   - at the following
     [link](http://htmlpreview.github.io/?https://github.com/peterhontaru/AirBnb-Milano-Price-Prediction/blob/master/AirBnb-Milan.html)
+  - md document
   - in the **Exploratory-Data-Analysis.md** of this repo (however, I
     recommend previewing it at the link above since it is rendered as
     html)
