@@ -66,30 +66,31 @@ knitr::opts_chunk$set(
 I've always been fascinated with the italian culture, history, places (and food!), so much so that this year I've started learning Italian. While looking to work on a data science project, I found this dataset on kaggle and thought it would be interesting to dive into it.
 
 
-![](_support files/milano.jpg)
-\begin{center}
-Thanks to Benjamin Voros for the picture.
-\end{center}
+<center>
+
+![Thanks to Benjamin Voros for the picture.](_support files/milano.jpg)
+
+</center>
 
 
 ## Summary:
 
 * the region did not prove to be a significant predictor of the price. Rather, the proximity to the city centre was shown to be more important
 
-![](figures/unnamed-chunk-10-1.png)
+![](figures/regions.png)
 
 * we used three different models in our project: Stepwise Regression, Gradient Boosting Machine and Random Forrest. The Random Forrest model was proven to be the most optimal model in terms of Rsquared (0.46), MAE (\$30) and RMSE (\$42)
 
-![](figures/unnamed-chunk-33-1.png)
+![](figures/RF.png)
 
 * while this model has a similar or higher Rsquared values to that of other AirBnb analyses (ie. Milan, New York), it is not high enough to provide an accurate predicton, shown by an average error of around $30
 
 
-![](figures/unnamed-chunk-40-1.png)
+![](figures/RF2.png)
 
 * the most important variables were shown to be the number of bedrooms, bathrooms, reviews, people to accommodate and the zipcode
 
-![](figures/unnamed-chunk-38-1.png)
+![](figures/factors.png)
 
 
 **NB**: A logarithmic approach to the price prediction model was also used outside of this analyis. However, I decided against including that in this wrap-up due to the following:
@@ -367,7 +368,7 @@ ggplot(data_by_region, aes(Region, count, fill = Region))+
         theme(legend.position = "none")    
 ```
 
-<img src="figures/unnamed-chunk-9-1.png" width="100%" />
+<img src="figures/regions-1.png" width="100%" />
 
 
 ## What is the price variability of each region?
@@ -384,7 +385,7 @@ ggplot(raw_data, aes(reorder(Region, desc(total_price)), total_price, fill = Reg
         theme(legend.position = "none")
 ```
 
-<img src="figures/unnamed-chunk-10-1.png" width="100%" />
+<img src="figures/unnamed-chunk-9-1.png" width="100%" />
 
 
 Let's break down our price range into percentiles in order to better understand its distribution:
@@ -473,7 +474,7 @@ ggplot(raw_data, aes(reorder(Region, desc(total_price)), total_price, fill = Reg
         theme(legend.position = "none")
 ```
 
-<img src="figures/unnamed-chunk-12-1.png" width="100%" />
+<img src="figures/unnamed-chunk-11-1.png" width="100%" />
 
 
 ## Could the zipcode be a better predictor of Price than the Region?
@@ -511,7 +512,7 @@ ggplot(data = data_zipcode_quantile_group, aes(zipcode_quantile_group, count, fi
         theme(legend.position = "none")
 ```
 
-<img src="figures/unnamed-chunk-13-1.png" width="100%" />
+<img src="figures/unnamed-chunk-12-1.png" width="100%" />
 
 
 Let's visualise this data on the map!
@@ -531,7 +532,7 @@ ggplot(raw_data, aes(longitude, latitude)) +
               axis.ticks.x = element_blank(),axis.text.x = element_blank())
 ```
 
-<img src="figures/unnamed-chunk-14-1.png" width="100%" />
+<img src="figures/unnamed-chunk-13-1.png" width="100%" />
 
 ```r
               #plot.title = element_text(lineheight=.8, face="bold", vjust=1))
@@ -557,7 +558,7 @@ Irrespective of region, the highest prices seem to be those within the zipcodes 
   theme(legend.position = "top")
 ```
 
-<img src="figures/unnamed-chunk-15-1.png" width="100%" />
+<img src="figures/unnamed-chunk-14-1.png" width="100%" />
 
 
 There could be a multitude of reasons for this to happen whether due to popularity, new addiiton or places being closed but not removed from the website. Unfortunately, we do not have any data to dig into it further.
@@ -585,7 +586,7 @@ ggplot(raw_data, aes(longitude, latitude)) +
         legend.position = "top")
 ```
 
-<img src="figures/unnamed-chunk-16-1.png" width="100%" />
+<img src="figures/unnamed-chunk-15-1.png" width="100%" />
 
 
 ### by zipcode quintile group {-}
@@ -608,7 +609,7 @@ ggplot(raw_data, aes(longitude, latitude)) +
         legend.position = "top")
 ```
 
-<img src="figures/unnamed-chunk-17-1.png" width="100%" />
+<img src="figures/unnamed-chunk-16-1.png" width="100%" />
 
 
 ##
@@ -640,7 +641,7 @@ ggplot(data = data_availability_by_region, aes(Region, diff_from_mean, fill = di
         theme(legend.position = "none")
 ```
 
-<img src="figures/unnamed-chunk-18-1.png" width="100%" />
+<img src="figures/unnamed-chunk-17-1.png" width="100%" />
 
 
 ### by Zipcode Quantile Group {-}
@@ -663,7 +664,7 @@ ggplot(data = data_availability_by_zipcode_quantile_group, aes(zipcode_quantile_
         theme(legend.position = "none")
 ```
 
-<img src="figures/unnamed-chunk-19-1.png" width="100%" />
+<img src="figures/unnamed-chunk-18-1.png" width="100%" />
 
 ```r
 #maybe add n = sample size
@@ -693,7 +694,7 @@ ggplot(data_Extras, aes(Extras, Availability))+
   coord_flip()
 ```
 
-<img src="figures/unnamed-chunk-20-1.png" width="100%" />
+<img src="figures/unnamed-chunk-19-1.png" width="100%" />
 
 
 ## Are there any differences in survey ratings? {.tabset .tabset-fade .tabset-pills}
@@ -713,7 +714,7 @@ ggplot(raw_data, aes(review_scores_rating, Region, fill = factor(stat(quantile))
   scale_fill_viridis_d(name = "Quartiles")
 ```
 
-<img src="figures/unnamed-chunk-21-1.png" width="100%" />
+<img src="figures/unnamed-chunk-20-1.png" width="100%" />
 
 
 ### Zoomed-in Y axis (50-100) {-}
@@ -731,7 +732,7 @@ ggplot(raw_data, aes(review_scores_rating, Region, fill = factor(stat(quantile))
   coord_cartesian(xlim = c(70,100))
 ```
 
-<img src="figures/unnamed-chunk-22-1.png" width="100%" />
+<img src="figures/unnamed-chunk-21-1.png" width="100%" />
 
 
 # Regression Model
@@ -875,7 +876,7 @@ ggplot(test_data2, aes(actual_total_price, predicted_total_price))+
        y = "Predicted Price")
 ```
 
-<img src="figures/unnamed-chunk-28-1.png" width="100%" />
+<img src="figures/unnamed-chunk-27-1.png" width="100%" />
 
 
 ## Model 2 - Gradient Boosting Machine
@@ -925,7 +926,7 @@ ggplot(test_data2, aes(actual_total_price, predicted_total_price))+
        y = "Predicted Price")
 ```
 
-<img src="figures/unnamed-chunk-30-1.png" width="100%" />
+<img src="figures/unnamed-chunk-29-1.png" width="100%" />
 
 
 ## Model 3 - Random Forrest
@@ -972,7 +973,7 @@ ggplot(test_data2, aes(actual_total_price, predicted_total_price))+
        y = "Predicted Price")
 ```
 
-<img src="figures/unnamed-chunk-32-1.png" width="100%" />
+<img src="figures/RF-1.png" width="100%" />
 
 
 ## Compare the three Models
@@ -1081,7 +1082,7 @@ plot(rf_model,
      main = "The most optimal model was that with 18 predictors")
 ```
 
-<img src="figures/unnamed-chunk-36-1.png" width="100%" />
+<img src="figures/predictors-1.png" width="100%" />
 
 
 ## What were the most important variables?
@@ -1095,7 +1096,7 @@ plot(imp, top = 20,
      main = "Top 20 variables ranked by importance")
 ```
 
-<img src="figures/unnamed-chunk-37-1.png" width="100%" />
+<img src="figures/factors-1.png" width="100%" />
 
 
 We can see that the most important factors were:
@@ -1126,7 +1127,7 @@ ggplot(test_data2, aes(Residuals))+
        subtitle = "Data is displayed in buckets of $10")
 ```
 
-<img src="figures/unnamed-chunk-38-1.png" width="100%" />
+<img src="figures/unnamed-chunk-34-1.png" width="100%" />
 
 
 ## Visualising the Random Forrest Model
@@ -1156,7 +1157,7 @@ ggplot(test_data2, aes(actual_total_price, Residuals))+
        y="Residuals (prediction error)")
 ```
 
-<img src="figures/unnamed-chunk-39-1.png" width="100%" />
+<img src="figures/RF2-1.png" width="100%" />
 
 
 ## Potential reasons for the "medium" Rsquared:

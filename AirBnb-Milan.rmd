@@ -108,6 +108,7 @@ I've always been fascinated with the italian culture, history, places (and food!
 ## Where did the data come from?
 
 Dataset available from kaggle (link below), made available by Antonio Mastrandrea and representative of the AirBnb data in July 2019.
+
 https://www.kaggle.com/antoniokaggle/milan-airbnb-open-data-only-entire-apartments
 
 
