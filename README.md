@@ -16,23 +16,7 @@ the future, in order to ensure I don’t pay any more than I have to, and
 thus, be able to spend more money on italian pasta and local
 experiences.
 
-![YouTube Trending Page](_support%20files/milano.jpg)
-
-``` r
-knitr::include_graphics("_support files/milano.jpg")
-```
-
-<div class="figure">
-
-<img src="_support files/milano.jpg" alt="Figure 2: This is" width="3385" />
-
-<p class="caption">
-
-Figure 2: This is
-
-</p>
-
-</div>
+![Thanks to Benjamin](_support%20files/milano.jpg)
 
 ## Problem statement
 
@@ -49,25 +33,30 @@ rented, given a set of variables.**
 4.  **Provide a model that others might want to use if they were
     interested in other cities, as AirBnb data is fairly standardised**
 
-### Dataset information:
-
-  - Contains \>120,000 videos across three countries (Canada, Great
-    Britain, United States of America)
-  - 8 months of Daily Trending data between “2017-11-14” and
-    “2018-06-14” (approx 200 videos/day/country)
-  - All the data is downloaded from
-    <https://www.kaggle.com/datasnaek/youtube-new> - *Raw data files are
-    available within the “Datasets” folder*
-
 # 2\. Key Insights:
 
-### Correlation plot:
+## Summary:
 
-![Correlation](figures/unnamed-chunk-39-1.png)
+  - Region did not prove to be a significant predictor of the price.
+    Rather, proximity to the city centre was seen as more important in
+    being able to predict the price
 
-![Overall stats](figures/unnamed-chunk-9-1.png)
+![1](figures/unnamed-chunk-10-1.png)
 
-![Max Trending Days](figures/unnamed-chunk-7-1.png)
+  - We used three different models in our project: Stepwise Regression,
+    Gradient Boosting Machine and Random Forrest. The Random Forrest
+    model was proven to be the best model in terms of Rsquared (0.46),
+    MAE ($30) and RMSE ($42)
+
+![2](figures/unnamed-chunk-32-1.png)
+
+  - why it didn’t do well in the higher prices
+
+![3](figures/unnamed-chunk-39-1.png)
+
+  - Important factors
+
+![4](figures/unnamed-chunk-34-1.png)
 
 # 3\. Full project
 

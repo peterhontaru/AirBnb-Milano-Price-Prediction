@@ -46,13 +46,10 @@ knitr::opts_chunk$set(
 
 ## Problem statement
 
-,m;
 **Can we predict the price at which an apartment should be rented? If so, which variables influenced the price the most?**
 
 
-![Milan](_support files/milano.jpg)
-
-Thanks to Benjamin Voros for the picture.
+![Thanks to Benjamin Voros for the picture.](_support files/milano.jpg)
 
 
 ## Why this dataset?
@@ -89,7 +86,7 @@ I've always been fascinated with the italian culture (and food!). So much so, th
 
 * Important factors
 
-![3](figures/unnamed-chunk-34-1.png)
+![4](figures/unnamed-chunk-34-1.png)
 
 
 ## Next steps / Recommendations:
