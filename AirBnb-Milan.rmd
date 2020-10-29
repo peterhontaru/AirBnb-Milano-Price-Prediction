@@ -67,7 +67,7 @@ I've always been fascinated with the italian culture, history, places (and food!
 
 <center>
 
-![Thanks to Benjamin Voros for the picture.](_support files/milano.jpg)
+![Thanks to Benjamin Voros for the picture](_support files/milano.jpg)
 
 </center>
 
@@ -76,20 +76,20 @@ I've always been fascinated with the italian culture, history, places (and food!
 
 * the region did not prove to be a significant predictor of the price. Rather, the proximity to the city centre was shown to be more important
 
-![](figures/regions.png)
+![](figures/regions-1.png)
 
 * we used three different models in our project: Stepwise Regression, Gradient Boosting Machine and Random Forrest. The Random Forrest model was proven to be the most optimal model in terms of Rsquared (0.46), MAE (\$30) and RMSE (\$42)
 
-![](figures/RF.png)
+![](figures/RF-1.png)
 
 * while this model has a similar or higher Rsquared values to that of other AirBnb analyses (ie. Milan, New York), it is not high enough to provide an accurate predicton, shown by an average error of around $30
 
 
-![](figures/RF2.png)
+![](figures/RF2-1.png)
 
 * the most important variables were shown to be the number of bedrooms, bathrooms, reviews, people to accommodate and the zipcode
 
-![](figures/factors.png)
+![](figures/factors-1.png)
 
 
 **NB**: A logarithmic approach to the price prediction model was also used outside of this analyis. However, I decided against including that in this wrap-up due to the following:
@@ -102,7 +102,7 @@ I've always been fascinated with the italian culture, history, places (and food!
 ## Next steps / Recommendations:
 
 * there are a number of variables which are not included in this dataset such as apartment size, picture analysis, text of the reviews and the description of the property which would have improved the accuracy of the model
-* it might also prove helpful to develop a dashboard where the user can input apartment values and receive a prediction range that they should consider using 
+* it might also prove helpful to develop a dashboard where the user can input variables and receive a prediction range that they should consider using 
 
 
 ## Where did the data come from?
@@ -338,7 +338,7 @@ ggplot(raw_data, aes(reorder(Region, desc(total_price)), total_price, fill = Reg
 ```
 
 
-## Could the zipcode be a better predictor of Price than the Region?
+## Could the zipcode be a better predictor of price than the region?
 
 
 Given the structure of Milan, it could be posssible that even within a region, prices differ significantly. For example, the half closer to the city centre and the one opposite might have significantly different average prices.
@@ -455,7 +455,7 @@ ggplot(raw_data, aes(longitude, latitude)) +
 ```
 
 
-##
+## {-}
 
 
 There doesn't seem to be a clear pattern, as there is a fairly equal mix of houses with high **and** low availability between all regions. Let's have a quick look at the aggregated data.
@@ -649,7 +649,7 @@ Essentially, we are "pretending" that some of our data is new and use the rest o
 ```{r}
 train.control <- trainControl(method = "repeatedcv", 
                               number = 2, #10
-                              repeats = 2, #5
+                              repeats = 1, #5
                               search = "random")
 ```
 

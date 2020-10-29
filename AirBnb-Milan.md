@@ -68,7 +68,7 @@ I've always been fascinated with the italian culture, history, places (and food!
 
 <center>
 
-![Thanks to Benjamin Voros for the picture.](_support files/milano.jpg)
+![Thanks to Benjamin Voros for the picture](_support files/milano.jpg)
 
 </center>
 
@@ -77,20 +77,20 @@ I've always been fascinated with the italian culture, history, places (and food!
 
 * the region did not prove to be a significant predictor of the price. Rather, the proximity to the city centre was shown to be more important
 
-![](figures/regions.png)
+![](figures/regions-1.png)
 
 * we used three different models in our project: Stepwise Regression, Gradient Boosting Machine and Random Forrest. The Random Forrest model was proven to be the most optimal model in terms of Rsquared (0.46), MAE (\$30) and RMSE (\$42)
 
-![](figures/RF.png)
+![](figures/RF-1.png)
 
 * while this model has a similar or higher Rsquared values to that of other AirBnb analyses (ie. Milan, New York), it is not high enough to provide an accurate predicton, shown by an average error of around $30
 
 
-![](figures/RF2.png)
+![](figures/RF2-1.png)
 
 * the most important variables were shown to be the number of bedrooms, bathrooms, reviews, people to accommodate and the zipcode
 
-![](figures/factors.png)
+![](figures/factors-1.png)
 
 
 **NB**: A logarithmic approach to the price prediction model was also used outside of this analyis. However, I decided against including that in this wrap-up due to the following:
@@ -103,12 +103,13 @@ I've always been fascinated with the italian culture, history, places (and food!
 ## Next steps / Recommendations:
 
 * there are a number of variables which are not included in this dataset such as apartment size, picture analysis, text of the reviews and the description of the property which would have improved the accuracy of the model
-* it might also prove helpful to develop a dashboard where the user can input apartment values and receive a prediction range that they should consider using 
+* it might also prove helpful to develop a dashboard where the user can input variables and receive a prediction range that they should consider using 
 
 
 ## Where did the data come from?
 
 Dataset available from kaggle (link below), made available by Antonio Mastrandrea and representative of the AirBnb data in July 2019.
+
 https://www.kaggle.com/antoniokaggle/milan-airbnb-open-data-only-entire-apartments
 
 
@@ -477,7 +478,7 @@ ggplot(raw_data, aes(reorder(Region, desc(total_price)), total_price, fill = Reg
 <img src="figures/unnamed-chunk-11-1.png" width="100%" />
 
 
-## Could the zipcode be a better predictor of Price than the Region?
+## Could the zipcode be a better predictor of price than the region?
 
 
 Given the structure of Milan, it could be posssible that even within a region, prices differ significantly. For example, the half closer to the city centre and the one opposite might have significantly different average prices.
@@ -612,7 +613,7 @@ ggplot(raw_data, aes(longitude, latitude)) +
 <img src="figures/unnamed-chunk-16-1.png" width="100%" />
 
 
-##
+## {-}
 
 
 There doesn't seem to be a clear pattern, as there is a fairly equal mix of houses with high **and** low availability between all regions. Let's have a quick look at the aggregated data.
@@ -827,7 +828,7 @@ Essentially, we are "pretending" that some of our data is new and use the rest o
 ```r
 train.control <- trainControl(method = "repeatedcv", 
                               number = 2, #10
-                              repeats = 2, #5
+                              repeats = 1, #5
                               search = "random")
 ```
 
@@ -994,25 +995,25 @@ summary(model_comparison)
 ## summary.resamples(object = model_comparison)
 ## 
 ## Models: lm, gbm, rf 
-## Number of resamples: 4 
+## Number of resamples: 2 
 ## 
 ## MAE 
 ##         Min.  1st Qu.   Median     Mean  3rd Qu.     Max. NA's
-## lm  31.11526 31.13297 31.38807 31.40433 31.65942 31.72591    0
-## gbm 30.14589 30.27200 30.41091 30.37597 30.51488 30.53615    0
-## rf  29.59393 29.91580 30.20295 30.18282 30.46997 30.73144    0
+## lm  31.11526 31.24576 31.37626 31.37626 31.50675 31.63725    0
+## gbm 33.47084 33.79205 34.11327 34.11327 34.43449 34.75570    0
+## rf  29.95395 30.02827 30.10259 30.10259 30.17691 30.25122    0
 ## 
 ## RMSE 
 ##         Min.  1st Qu.   Median     Mean  3rd Qu.     Max. NA's
-## lm  44.01209 44.15731 44.22836 44.33571 44.40676 44.87405    0
-## gbm 42.37121 42.59590 42.79524 42.80099 43.00034 43.24230    0
-## rf  41.05268 42.34422 42.90531 42.79670 43.35778 44.32349    0
+## lm  44.20572 44.21704 44.22836 44.22836 44.23968 44.25100    0
+## gbm 46.39768 46.82430 47.25092 47.25092 47.67754 48.10416    0
+## rf  41.64900 42.22491 42.80083 42.80083 43.37674 43.95266    0
 ## 
 ## Rsquared 
 ##          Min.   1st Qu.    Median      Mean   3rd Qu.      Max. NA's
-## lm  0.3968808 0.4113166 0.4253097 0.4234260 0.4374191 0.4462037    0
-## gbm 0.4502930 0.4603678 0.4668450 0.4664366 0.4729138 0.4817634    0
-## rf  0.4389916 0.4439752 0.4650523 0.4648461 0.4859233 0.4902883    0
+## lm  0.4161285 0.4207191 0.4253097 0.4253097 0.4299003 0.4344909    0
+## gbm 0.3883348 0.3907494 0.3931639 0.3931639 0.3955785 0.3979930    0
+## rf  0.4650544 0.4661304 0.4672064 0.4672064 0.4682824 0.4693584    0
 ```
 
 
@@ -1037,13 +1038,13 @@ compare_models(rf_model, step_model)
 ## 	One Sample t-test
 ## 
 ## data:  x
-## t = -2.298, df = 3, p-value = 0.1052
+## t = -1.2642, df = 1, p-value = 0.426
 ## alternative hypothesis: true mean is not equal to 0
 ## 95 percent confidence interval:
-##  -3.6704050  0.5923731
+##  -15.77524  12.92018
 ## sample estimates:
 ## mean of x 
-## -1.539016
+## -1.427527
 ```
 
 
@@ -1060,13 +1061,13 @@ compare_models(rf_model, gbm_model)
 ## 	One Sample t-test
 ## 
 ## data:  x
-## t = -0.0050679, df = 3, p-value = 0.9963
+## t = -2.2194, df = 1, p-value = 0.2695
 ## alternative hypothesis: true mean is not equal to 0
 ## 95 percent confidence interval:
-##  -2.703135  2.694540
+##  -29.92689  21.02672
 ## sample estimates:
-##    mean of x 
-## -0.004297765
+## mean of x 
+## -4.450089
 ```
 
 
