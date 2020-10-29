@@ -67,7 +67,7 @@ I've always been fascinated with the italian culture, history, places (and food!
 
 <center>
 
-![Thanks to Benjamin Voros for the picture](_support files/milano.jpg)
+![Thanks to Benjamin Voros for this picture of the Milan Cathedral (Duomo di Milano).](_support files/milano.jpg)
 
 </center>
 
@@ -95,19 +95,19 @@ I've always been fascinated with the italian culture, history, places (and food!
 **NB**: A logarithmic approach to the price prediction model was also used outside of this analyis. However, I decided against including that in this wrap-up due to the following:
 
 * it did not produce significantly better results
-* it would make the wrap-up a longer longer (almost 2x the length of the current version)
+* it would make the wrap-up a lot longer (almost 2x the length of the current version)
 * its stats are not as straightforward to understand
 
 
 ## Next steps / Recommendations:
 
 * there are a number of variables which are not included in this dataset such as apartment size, picture analysis, text of the reviews and the description of the property which would have improved the accuracy of the model
-* it might also prove helpful to develop a dashboard where the user can input variables and receive a prediction range that they should consider using 
+* it might also prove helpful to develop a dashboard where the user can input variables and receive a prediction range that they might want to consider
 
 
 ## Where did the data come from?
 
-Dataset available from kaggle (link below), made available by Antonio Mastrandrea and representative of the AirBnb data in July 2019.
+The dataset was downloaded from kaggle (link below), made available by Antonio Mastrandrea and it is representative of the AirBnb data in July 2019.
 
 https://www.kaggle.com/antoniokaggle/milan-airbnb-open-data-only-entire-apartments
 
@@ -288,7 +288,7 @@ ggplot(data_by_region, aes(Region, count, fill = Region))+
         geom_col(col = "black")+
         geom_line(aes(Region, avg_price*10), group = 1, lty = 2)+
         geom_label(aes(Region, avg_price*10, label = paste("$", round(avg_price), sep = "")), fill = "black", col = "white")+
-        labs(y = "Total apartments / Average Daily Price",
+        labs(y = "Total apartments / Average daily price",
              x = "Region",
              title = "Region 1 has a higher average than all others due its central location and it is the most prominent")+
         theme(legend.position = "none")    
@@ -333,12 +333,12 @@ ggplot(raw_data, aes(reorder(Region, desc(total_price)), total_price, fill = Reg
         scale_y_continuous(labels = dollar_format())+
         labs(y = NULL,
              x = "Region",
-             title = "Region 1 also has a higher price range, average and median \nRegion 2 and 9 have a slightly lower median and IQR")+
+             title = "Region 1 has a higher price range, average and median \nRegion 2 and 9 have a slightly lower median and IQR")+
         theme(legend.position = "none")
 ```
 
 
-## Could the zipcode be a better predictor of price than the region?
+## Could the zipcode be a better predictor of the price than the region?
 
 
 Given the structure of Milan, it could be posssible that even within a region, prices differ significantly. For example, the half closer to the city centre and the one opposite might have significantly different average prices.
@@ -367,7 +367,7 @@ ggplot(data = data_zipcode_quantile_group, aes(zipcode_quantile_group, count, fi
         scale_fill_gradient(low = "yellow", high = "red")+
         labs(y = "Total apartments",
              x = "Zipcode quintile",
-             title = "The zipcode quintile with the highest prices has a higher proportion out of all apartments (45%)",
+             title = "The zipcode quintile group with the highest prices has a higher proportion of apartments (45%)",
              subtitle = "Each zipcode quintile contains an equal amount of zipcodes")+
         theme(legend.position = "none")
 ```
@@ -455,8 +455,7 @@ ggplot(raw_data, aes(longitude, latitude)) +
 ```
 
 
-## {-}
-
+## {.unlisted .unnumbered}
 
 There doesn't seem to be a clear pattern, as there is a fairly equal mix of houses with high **and** low availability between all regions. Let's have a quick look at the aggregated data.
 
@@ -477,7 +476,7 @@ data_availability_by_region <- raw_data%>%
 ggplot(data = data_availability_by_region, aes(Region, diff_from_mean, fill = diff_from_mean >= 0))+
         geom_col(col = "black")+
         scale_fill_manual(values = c("dark red", "#009E73"))+
-        labs(y = "% difference from Mean Availability",
+        labs(y = "% difference from mean availability",
              x = "Region",
              title = "Region 1 apartments have a slightly higher availability than others, perhaps due to the higher price")+
         theme(legend.position = "none")
@@ -497,12 +496,10 @@ data_availability_by_zipcode_quantile_group <- raw_data %>%
 ggplot(data = data_availability_by_zipcode_quantile_group, aes(zipcode_quantile_group, diff_from_mean, fill = diff_from_mean >= 0))+
         geom_col(col = "black")+
         scale_fill_manual(values = c("dark red", "#009E73"))+
-        labs(y = "% difference from Mean Availability",
+        labs(y = "% difference from mean availability",
              x = "Zipcode quintile group",
-             title = "Region 1 apartments have a slightly higher availability than others, perhaps due to the higher price")+
+             title = "Central apartments also have a slightly higher availability than others")+
         theme(legend.position = "none")
-
-#maybe add n = sample size
 ```
 
 
@@ -587,7 +584,7 @@ raw_data_model <- raw_data %>%
 
 We've seen that while most of the data is under \$400 (>98%), there are some extreme outliers up to \$3,000 that might affect our model. To improve the accuracy of our model, we can **remove the highest 2% of the prices** as we do not want to tailor this model to the luxury market for a couple reasons: 
 
-* if you're a tourist, you're unlikely to be checking online prices if you can even consider paying ~$3,000 a night
+* if you're a tourist, you're unlikely to check online prices if you can even consider paying ~$3,000 a night
 * similarly, as a landlord of a luxury property, you probably don't need to compare your price to others'
 * there is very limited data
 * AirBnb's target market isn't focused on luxurious escapes
@@ -641,7 +638,7 @@ train_data$total_price <- y
 ## Resampling
 
 
-We will perform a 10-fold Cross Validation 5 times. This means we will be dividing the training dataset randomly into 10 parts, use each of 10 parts as a "testing dataset" for the model and "train" on the remaining 9. 
+We will perform a 10-fold Cross Validation 5 times. This means we will be dividing the training dataset randomly into 10 parts, use each of the 10 parts as a "testing dataset" for the model and "train" on the remaining 9. 
 
 Essentially, we are "pretending" that some of our data is new and use the rest of the data to model on. We then take the average error of each of the 10 models and repeat this process 5 times. Doing it more than once will give a more realistic sense of how the model will perform on new data.
 
@@ -649,7 +646,7 @@ Essentially, we are "pretending" that some of our data is new and use the rest o
 ```{r}
 train.control <- trainControl(method = "repeatedcv", 
                               number = 2, #10
-                              repeats = 1, #5
+                              repeats = 2, #5
                               search = "random")
 ```
 
@@ -868,7 +865,7 @@ ggplot(test_data2, aes(Residuals))+
   scale_x_continuous(labels = dollar_format(), n.breaks = 10)+
   labs(x="Residuals (prediction error)",
        y= "Total occurences",
-       title = "It was more common for the model to overpredict the daily price than underpredict it \nMost data has an error of $30 but there are some outliers of over $100 and under $200",
+       title = "Most data has an error of $30 but there are some outliers of over $100 and under $200",
        subtitle = "Data is displayed in buckets of $10")
 ```
 

@@ -68,7 +68,7 @@ I've always been fascinated with the italian culture, history, places (and food!
 
 <center>
 
-![Thanks to Benjamin Voros for the picture](_support files/milano.jpg)
+![Thanks to Benjamin Voros for this picture of the Milan Cathedral (Duomo di Milano).](_support files/milano.jpg)
 
 </center>
 
@@ -96,19 +96,19 @@ I've always been fascinated with the italian culture, history, places (and food!
 **NB**: A logarithmic approach to the price prediction model was also used outside of this analyis. However, I decided against including that in this wrap-up due to the following:
 
 * it did not produce significantly better results
-* it would make the wrap-up a longer longer (almost 2x the length of the current version)
+* it would make the wrap-up a lot longer (almost 2x the length of the current version)
 * its stats are not as straightforward to understand
 
 
 ## Next steps / Recommendations:
 
 * there are a number of variables which are not included in this dataset such as apartment size, picture analysis, text of the reviews and the description of the property which would have improved the accuracy of the model
-* it might also prove helpful to develop a dashboard where the user can input variables and receive a prediction range that they should consider using 
+* it might also prove helpful to develop a dashboard where the user can input variables and receive a prediction range that they might want to consider
 
 
 ## Where did the data come from?
 
-Dataset available from kaggle (link below), made available by Antonio Mastrandrea and representative of the AirBnb data in July 2019.
+The dataset was downloaded from kaggle (link below), made available by Antonio Mastrandrea and it is representative of the AirBnb data in July 2019.
 
 https://www.kaggle.com/antoniokaggle/milan-airbnb-open-data-only-entire-apartments
 
@@ -363,7 +363,7 @@ ggplot(data_by_region, aes(Region, count, fill = Region))+
         geom_col(col = "black")+
         geom_line(aes(Region, avg_price*10), group = 1, lty = 2)+
         geom_label(aes(Region, avg_price*10, label = paste("$", round(avg_price), sep = "")), fill = "black", col = "white")+
-        labs(y = "Total apartments / Average Daily Price",
+        labs(y = "Total apartments / Average daily price",
              x = "Region",
              title = "Region 1 has a higher average than all others due its central location and it is the most prominent")+
         theme(legend.position = "none")    
@@ -471,14 +471,14 @@ ggplot(raw_data, aes(reorder(Region, desc(total_price)), total_price, fill = Reg
         scale_y_continuous(labels = dollar_format())+
         labs(y = NULL,
              x = "Region",
-             title = "Region 1 also has a higher price range, average and median \nRegion 2 and 9 have a slightly lower median and IQR")+
+             title = "Region 1 has a higher price range, average and median \nRegion 2 and 9 have a slightly lower median and IQR")+
         theme(legend.position = "none")
 ```
 
 <img src="figures/unnamed-chunk-11-1.png" width="100%" />
 
 
-## Could the zipcode be a better predictor of price than the region?
+## Could the zipcode be a better predictor of the price than the region?
 
 
 Given the structure of Milan, it could be posssible that even within a region, prices differ significantly. For example, the half closer to the city centre and the one opposite might have significantly different average prices.
@@ -508,7 +508,7 @@ ggplot(data = data_zipcode_quantile_group, aes(zipcode_quantile_group, count, fi
         scale_fill_gradient(low = "yellow", high = "red")+
         labs(y = "Total apartments",
              x = "Zipcode quintile",
-             title = "The zipcode quintile with the highest prices has a higher proportion out of all apartments (45%)",
+             title = "The zipcode quintile group with the highest prices has a higher proportion of apartments (45%)",
              subtitle = "Each zipcode quintile contains an equal amount of zipcodes")+
         theme(legend.position = "none")
 ```
@@ -613,8 +613,7 @@ ggplot(raw_data, aes(longitude, latitude)) +
 <img src="figures/unnamed-chunk-16-1.png" width="100%" />
 
 
-## {-}
-
+## {.unlisted .unnumbered}
 
 There doesn't seem to be a clear pattern, as there is a fairly equal mix of houses with high **and** low availability between all regions. Let's have a quick look at the aggregated data.
 
@@ -636,7 +635,7 @@ data_availability_by_region <- raw_data%>%
 ggplot(data = data_availability_by_region, aes(Region, diff_from_mean, fill = diff_from_mean >= 0))+
         geom_col(col = "black")+
         scale_fill_manual(values = c("dark red", "#009E73"))+
-        labs(y = "% difference from Mean Availability",
+        labs(y = "% difference from mean availability",
              x = "Region",
              title = "Region 1 apartments have a slightly higher availability than others, perhaps due to the higher price")+
         theme(legend.position = "none")
@@ -659,17 +658,13 @@ data_availability_by_zipcode_quantile_group <- raw_data %>%
 ggplot(data = data_availability_by_zipcode_quantile_group, aes(zipcode_quantile_group, diff_from_mean, fill = diff_from_mean >= 0))+
         geom_col(col = "black")+
         scale_fill_manual(values = c("dark red", "#009E73"))+
-        labs(y = "% difference from Mean Availability",
+        labs(y = "% difference from mean availability",
              x = "Zipcode quintile group",
-             title = "Region 1 apartments have a slightly higher availability than others, perhaps due to the higher price")+
+             title = "Central apartments also have a slightly higher availability than others")+
         theme(legend.position = "none")
 ```
 
 <img src="figures/unnamed-chunk-18-1.png" width="100%" />
-
-```r
-#maybe add n = sample size
-```
 
 
 ## What type of extra services are available during an AirBnb stay in Milan?
@@ -763,7 +758,7 @@ raw_data_model <- raw_data %>%
 
 We've seen that while most of the data is under \$400 (>98%), there are some extreme outliers up to \$3,000 that might affect our model. To improve the accuracy of our model, we can **remove the highest 2% of the prices** as we do not want to tailor this model to the luxury market for a couple reasons: 
 
-* if you're a tourist, you're unlikely to be checking online prices if you can even consider paying ~$3,000 a night
+* if you're a tourist, you're unlikely to check online prices if you can even consider paying ~$3,000 a night
 * similarly, as a landlord of a luxury property, you probably don't need to compare your price to others'
 * there is very limited data
 * AirBnb's target market isn't focused on luxurious escapes
@@ -819,7 +814,7 @@ train_data$total_price <- y
 ## Resampling
 
 
-We will perform a 10-fold Cross Validation 5 times. This means we will be dividing the training dataset randomly into 10 parts, use each of 10 parts as a "testing dataset" for the model and "train" on the remaining 9. 
+We will perform a 10-fold Cross Validation 5 times. This means we will be dividing the training dataset randomly into 10 parts, use each of the 10 parts as a "testing dataset" for the model and "train" on the remaining 9. 
 
 Essentially, we are "pretending" that some of our data is new and use the rest of the data to model on. We then take the average error of each of the 10 models and repeat this process 5 times. Doing it more than once will give a more realistic sense of how the model will perform on new data.
 
@@ -828,7 +823,7 @@ Essentially, we are "pretending" that some of our data is new and use the rest o
 ```r
 train.control <- trainControl(method = "repeatedcv", 
                               number = 2, #10
-                              repeats = 1, #5
+                              repeats = 2, #5
                               search = "random")
 ```
 
@@ -995,25 +990,25 @@ summary(model_comparison)
 ## summary.resamples(object = model_comparison)
 ## 
 ## Models: lm, gbm, rf 
-## Number of resamples: 2 
+## Number of resamples: 4 
 ## 
 ## MAE 
 ##         Min.  1st Qu.   Median     Mean  3rd Qu.     Max. NA's
-## lm  31.11526 31.24576 31.37626 31.37626 31.50675 31.63725    0
-## gbm 33.47084 33.79205 34.11327 34.11327 34.43449 34.75570    0
-## rf  29.95395 30.02827 30.10259 30.10259 30.17691 30.25122    0
+## lm  31.11526 31.13297 31.38807 31.40433 31.65942 31.72591    0
+## gbm 30.14589 30.27200 30.41091 30.37597 30.51488 30.53615    0
+## rf  29.59393 29.91580 30.20295 30.18282 30.46997 30.73144    0
 ## 
 ## RMSE 
 ##         Min.  1st Qu.   Median     Mean  3rd Qu.     Max. NA's
-## lm  44.20572 44.21704 44.22836 44.22836 44.23968 44.25100    0
-## gbm 46.39768 46.82430 47.25092 47.25092 47.67754 48.10416    0
-## rf  41.64900 42.22491 42.80083 42.80083 43.37674 43.95266    0
+## lm  44.01209 44.15731 44.22836 44.33571 44.40676 44.87405    0
+## gbm 42.37121 42.59590 42.79524 42.80099 43.00034 43.24230    0
+## rf  41.05268 42.34422 42.90531 42.79670 43.35778 44.32349    0
 ## 
 ## Rsquared 
 ##          Min.   1st Qu.    Median      Mean   3rd Qu.      Max. NA's
-## lm  0.4161285 0.4207191 0.4253097 0.4253097 0.4299003 0.4344909    0
-## gbm 0.3883348 0.3907494 0.3931639 0.3931639 0.3955785 0.3979930    0
-## rf  0.4650544 0.4661304 0.4672064 0.4672064 0.4682824 0.4693584    0
+## lm  0.3968808 0.4113166 0.4253097 0.4234260 0.4374191 0.4462037    0
+## gbm 0.4502930 0.4603678 0.4668450 0.4664366 0.4729138 0.4817634    0
+## rf  0.4389916 0.4439752 0.4650523 0.4648461 0.4859233 0.4902883    0
 ```
 
 
@@ -1038,13 +1033,13 @@ compare_models(rf_model, step_model)
 ## 	One Sample t-test
 ## 
 ## data:  x
-## t = -1.2642, df = 1, p-value = 0.426
+## t = -2.298, df = 3, p-value = 0.1052
 ## alternative hypothesis: true mean is not equal to 0
 ## 95 percent confidence interval:
-##  -15.77524  12.92018
+##  -3.6704050  0.5923731
 ## sample estimates:
 ## mean of x 
-## -1.427527
+## -1.539016
 ```
 
 
@@ -1061,13 +1056,13 @@ compare_models(rf_model, gbm_model)
 ## 	One Sample t-test
 ## 
 ## data:  x
-## t = -2.2194, df = 1, p-value = 0.2695
+## t = -0.0050679, df = 3, p-value = 0.9963
 ## alternative hypothesis: true mean is not equal to 0
 ## 95 percent confidence interval:
-##  -29.92689  21.02672
+##  -2.703135  2.694540
 ## sample estimates:
-## mean of x 
-## -4.450089
+##    mean of x 
+## -0.004297765
 ```
 
 
@@ -1124,7 +1119,7 @@ ggplot(test_data2, aes(Residuals))+
   scale_x_continuous(labels = dollar_format(), n.breaks = 10)+
   labs(x="Residuals (prediction error)",
        y= "Total occurences",
-       title = "It was more common for the model to overpredict the daily price than underpredict it \nMost data has an error of $30 but there are some outliers of over $100 and under $200",
+       title = "Most data has an error of $30 but there are some outliers of over $100 and under $200",
        subtitle = "Data is displayed in buckets of $10")
 ```
 
