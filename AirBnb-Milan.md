@@ -1,18 +1,19 @@
 ---
     output:
       html_document:
-        
+              
         toc: true
         toc_float: false
         toc_depth: 2
         number_sections: true
         
-        code_folding: hide 
+        code_folding: hide
+        code_download: true
         
-        fig_height: 5
-        fig_width: 9
+        fig_width: 8 
+        fig_height: 4
         fig_align: "center"
-    
+        
         highlight: pygments
         theme: cerulean
         
@@ -75,22 +76,12 @@ I've always been fascinated with the italian culture, history, places (and food!
 
 ## Summary:
 
-* the region did not prove to be a significant predictor of the price. Rather, the proximity to the city centre was shown to be more important
-
-![](figures/regions-1.png)
-
-* we used three different models in our project: Stepwise Regression, Gradient Boosting Machine and Random Forrest. The Random Forrest model was proven to be the most optimal model in terms of Rsquared (0.46), MAE (\$30) and RMSE (\$42)
-
-![](figures/RF-1.png)
-
-* while this model has a similar or higher Rsquared values to that of other AirBnb analyses (ie. Milan, New York), it is not high enough to provide an accurate predicton, shown by an average error of around $30
-
-
-![](figures/RF2-1.png)
-
-* the most important variables were shown to be the number of bedrooms, bathrooms, reviews, people to accommodate and the zipcode
-
-![](figures/factors-1.png)
+* we used three different models in our project: **Stepwise Regression**(Rsquared 0.432), **Gradient Boosting Machine**(0.446) and **Random Forrest**(0.486). 
+* The Random Forrest model was proven to be the most optimal model in terms of Rsquared(0.486), MAE (\$29) and RMSE (\$42)
+* while this model has a similar or higher Rsquared values to that of other AirBnb analyses (ie. Milan, New York), it is not high enough to provide an accurate predicton, shown by an average error of ~$29
+* the most important variables were shown to be the number of **bedrooms**, **bathrooms**, **reviews**, and **number of people to accommodate**
+* the **region** did not prove to be a significant predictor of the price. Rather, the proximity to the city centre was shown to be more important, as shown by **latitude**, **longitude** or **zipcode group**
+* the usual **services** we look for when booking accommodation (Wifi, heating, kitchen, etc) were not shown to be important in predicting prices, given that most apartments had them and thus, they weren't enough to justify a higher price
 
 
 **NB**: A logarithmic approach to the price prediction model was also used outside of this analyis. However, I decided against including that in this wrap-up due to the following:
@@ -600,22 +591,17 @@ ggplot(raw_data, aes(longitude, latitude)) +
   labs(x="", 
        y="",
        col = "Availability (%) in the next 365 days",
-       title="There doesn't seem to be a trend in availability between the different Zipcode Quintile Groups",
+       title="There doesn't seem to be a trend in availability between the different zipcode quintile groups",
        subtitle = "Data points for each region are much narrower on the map but they were spread out slightly so that all points can be observed")+
   scale_colour_gradient(low = "yellow", high = "red")+
   facet_wrap(.~zipcode_quantile_group)+
   theme(axis.ticks.y = element_blank(),axis.text.y = element_blank(),
         axis.ticks.x = element_blank(),axis.text.x = element_blank(),
-        plot.title = element_text(lineheight=.8, face="bold", vjust=1),
+        #plot.title = element_text(lineheight=.8, face="bold", vjust=1),
         legend.position = "top")
 ```
 
 <img src="figures/unnamed-chunk-16-1.png" width="100%" />
-
-
-## {.unlisted .unnumbered}
-
-There doesn't seem to be a clear pattern, as there is a fairly equal mix of houses with high **and** low availability between all regions. Let's have a quick look at the aggregated data.
 
 
 ## What does the aggregated availability look like over 365 days? {.tabset .tabset-fade .tabset-pills}
@@ -660,7 +646,7 @@ ggplot(data = data_availability_by_zipcode_quantile_group, aes(zipcode_quantile_
         scale_fill_manual(values = c("dark red", "#009E73"))+
         labs(y = "% difference from mean availability",
              x = "Zipcode quintile group",
-             title = "Central apartments also have a slightly higher availability than others")+
+             title = "Central apartments (by zipcode) also have a slightly higher availability than others")+
         theme(legend.position = "none")
 ```
 
@@ -822,9 +808,11 @@ Essentially, we are "pretending" that some of our data is new and use the rest o
 
 ```r
 train.control <- trainControl(method = "repeatedcv", 
-                              number = 2, #10
-                              repeats = 2, #5
+                              number = 10, #10
+                              repeats = 5, #5
                               search = "random")
+
+clusters <- 4
 ```
 
 
@@ -834,8 +822,8 @@ train.control <- trainControl(method = "repeatedcv",
 
 ```r
 #run them all in paralel
-cl <- makeCluster(3, type = "SOCK")
-
+cl <- makeCluster(clusters, type = "SOCK")
+ 
 #register cluster train in paralel
 registerDoSNOW(cl)
 
@@ -881,8 +869,8 @@ ggplot(test_data2, aes(actual_total_price, predicted_total_price))+
 
 ```r
 #run them all in paralel
-cl <- makeCluster(3, type = "SOCK")
-
+cl <- makeCluster(clusters, type = "SOCK")
+ 
 #register cluster train in paralel
 registerDoSNOW(cl)
 
@@ -931,8 +919,8 @@ ggplot(test_data2, aes(actual_total_price, predicted_total_price))+
 
 ```r
 #run them all in paralel
-cl <- makeCluster(3, type = "SOCK")
-
+cl <- makeCluster(clusters, type = "SOCK")
+ 
 #register cluster train in paralel
 registerDoSNOW(cl)
 
@@ -990,25 +978,25 @@ summary(model_comparison)
 ## summary.resamples(object = model_comparison)
 ## 
 ## Models: lm, gbm, rf 
-## Number of resamples: 4 
+## Number of resamples: 50 
 ## 
 ## MAE 
 ##         Min.  1st Qu.   Median     Mean  3rd Qu.     Max. NA's
-## lm  31.11526 31.13297 31.38807 31.40433 31.65942 31.72591    0
-## gbm 30.14589 30.27200 30.41091 30.37597 30.51488 30.53615    0
-## rf  29.59393 29.91580 30.20295 30.18282 30.46997 30.73144    0
+## lm  28.80662 30.42014 30.96066 31.12278 31.77723 33.78264    0
+## gbm 29.65224 31.00173 31.95126 31.77072 32.51935 34.16346    0
+## rf  26.30958 28.92319 29.66106 29.47589 30.19024 31.02886    0
 ## 
 ## RMSE 
 ##         Min.  1st Qu.   Median     Mean  3rd Qu.     Max. NA's
-## lm  44.01209 44.15731 44.22836 44.33571 44.40676 44.87405    0
-## gbm 42.37121 42.59590 42.79524 42.80099 43.00034 43.24230    0
-## rf  41.05268 42.34422 42.90531 42.79670 43.35778 44.32349    0
+## lm  39.95224 42.48382 43.97251 43.97613 45.40242 49.86685    0
+## gbm 40.63586 43.53866 44.30020 44.43717 45.74549 49.34192    0
+## rf  36.95195 40.98212 42.20428 41.98914 43.28350 46.51561    0
 ## 
 ## Rsquared 
 ##          Min.   1st Qu.    Median      Mean   3rd Qu.      Max. NA's
-## lm  0.3968808 0.4113166 0.4253097 0.4234260 0.4374191 0.4462037    0
-## gbm 0.4502930 0.4603678 0.4668450 0.4664366 0.4729138 0.4817634    0
-## rf  0.4389916 0.4439752 0.4650523 0.4648461 0.4859233 0.4902883    0
+## lm  0.3682906 0.4035622 0.4303998 0.4326528 0.4541365 0.5126889    0
+## gbm 0.3694281 0.4216419 0.4480919 0.4469149 0.4736226 0.5268891    0
+## rf  0.4010818 0.4607834 0.4839766 0.4860365 0.5164107 0.5429325    0
 ```
 
 
@@ -1033,13 +1021,13 @@ compare_models(rf_model, step_model)
 ## 	One Sample t-test
 ## 
 ## data:  x
-## t = -2.298, df = 3, p-value = 0.1052
+## t = -4.7554, df = 49, p-value = 1.78e-05
 ## alternative hypothesis: true mean is not equal to 0
 ## 95 percent confidence interval:
-##  -3.6704050  0.5923731
+##  -2.826667 -1.147312
 ## sample estimates:
 ## mean of x 
-## -1.539016
+##  -1.98699
 ```
 
 
@@ -1056,13 +1044,13 @@ compare_models(rf_model, gbm_model)
 ## 	One Sample t-test
 ## 
 ## data:  x
-## t = -0.0050679, df = 3, p-value = 0.9963
+## t = -6.0969, df = 49, p-value = 1.659e-07
 ## alternative hypothesis: true mean is not equal to 0
 ## 95 percent confidence interval:
-##  -2.703135  2.694540
+##  -3.254921 -1.641147
 ## sample estimates:
-##    mean of x 
-## -0.004297765
+## mean of x 
+## -2.448034
 ```
 
 
@@ -1147,7 +1135,7 @@ ggplot(test_data2, aes(actual_total_price, Residuals))+
   geom_point(alpha = 0.5, color = "blue")+
   geom_smooth(method = "loess", col = "red", se = FALSE)+
   scale_x_continuous(labels = dollar_format())+
-  labs(title = "While the mean error is $30, there is a tendency to underpredict houses as the price increases",
+  labs(title = "While the mean error is $29, there is a tendency to underpredict as the price increases",
        subtitle = "Although the model isn't precise enough for an exact prediction, it is precise enough to provide an approximate range",
        x = "Actual Price",
        y="Residuals (prediction error)")
@@ -1159,7 +1147,7 @@ ggplot(test_data2, aes(actual_total_price, Residuals))+
 ## Potential reasons for the "medium" Rsquared:
 
 
-While this model has a similar or higher Rsquared values to that of other AirBnb datasets (ie. Milan, New York), it is not high enough to provide an accurate predicton, shown by an average error of around $30. A few reasons for this could be:
+While this model has a similar or higher Rsquared values to that of other AirBnb datasets (ie. Milan, New York), it is not high enough to provide an accurate predicton, shown by an average error of around $29. A few reasons for this could be:
 
 * the size of the apartment (squared feet/meters) is not included in the dataset and thus, in the model; this metric might be a better predictor than the number of bedrooms/bathrooms
 * any special characteristics of an apartment (ie. view of the popular Cathedral, situated in a popular square, in a historic building, etc)
