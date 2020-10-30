@@ -37,26 +37,26 @@ picture.](_support%20files/milano.jpg)
     Rather, the proximity to the city centre was shown to be more
     important
 
-![1](figures/regions.png)
+![1](figures/regions-1.png)
 
   - we used three different models in our project: Stepwise Regression,
     Gradient Boosting Machine and Random Forrest. The Random Forrest
     model was proven to be the most optimal model in terms of Rsquared
     (0.46), MAE ($30) and RMSE ($42)
 
-![2](figures/RF.png)
+![2](figures/RF-1.png)
 
   - while this model has a similar or higher Rsquared values to that of
     other AirBnb analyses (ie. Milan, New York), it is not high enough
     to provide an accurate predicton, shown by an average error of
     around $30
 
-![3](figures/RF2.png)
+![3](figures/RF2-1.png)
 
   - the most important variables were shown to be the number of
     bedrooms, bathrooms, reviews, people to accommodate and the zipcode
 
-![4](figures/factors.png)
+![4](figures/factors-1.png)
 
 **NB**: A logarithmic approach to the price prediction model was also
 used outside of this analyis. However, I decided against including that
@@ -81,6 +81,7 @@ in this wrap-up due to the following:
 
 Dataset available from kaggle (link below), made available by Antonio
 Mastrandrea and representative of the AirBnb data in July 2019.
+
 <https://www.kaggle.com/antoniokaggle/milan-airbnb-open-data-only-entire-apartments>
 
 # Extended analysis
