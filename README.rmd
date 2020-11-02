@@ -8,8 +8,9 @@
     
       code_folding: hide
       
-    title: "AirBnb - Milan - Price Prediction Model"
+    title: "Price Prediction - AirBnb Apartments in Milan"
     subtitle: "Exploratory Data Analysis and Price Prediction Model"
+    author: "by Peter Hontaru"
 ---
 
 

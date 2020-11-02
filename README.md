@@ -1,5 +1,6 @@
-AirBnb - Milan - Price Prediction Model
+Price Prediction - AirBnb Apartments in Milan
 ================
+by Peter Hontaru
 
 ![AirBnb logo](_support%20files/airbnb.png)
 
