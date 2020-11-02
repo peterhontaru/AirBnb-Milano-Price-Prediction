@@ -1136,7 +1136,7 @@ ggplot(test_data2, aes(actual_total_price, Residuals))+
   geom_smooth(method = "loess", col = "red", se = FALSE)+
   scale_x_continuous(labels = dollar_format())+
   labs(title = "While the mean error is $29, there is a tendency to underpredict as the price increases",
-       subtitle = "Although the model isn't precise enough for an exact prediction, it is precise enough to provide an approximate range",
+       subtitle = "Although the model isn't precise enough for an exact prediction, it is precise enough to provide a range",
        x = "Actual Price",
        y="Residuals (prediction error)")
 ```

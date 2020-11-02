@@ -3,7 +3,7 @@
       github_document:
 
       fig_width: 9
-      fig_height: 5
+      fig_height: 4
       fig_align: "center"
     
       code_folding: hide
@@ -13,7 +13,7 @@
 ---
 
 
-![YouTube Trending Page](_support files/airbnb.png)
+![AirBnb logo](_support files/airbnb.png)
 
 
 # Introduction
@@ -33,51 +33,64 @@
 
 ## Why this dataset?
 
-I've always been fascinated with the italian culture, history, places (and food!), so much so that this year I've started learning Italian. While looking to work on a data science project, I found this dataset on kaggle and thought it would be interesting to dive into it.
+I've always been fascinated by the italian culture, history, places and food, so much so that this year I've started learning Italian. While looking to work on a data science project, I found this dataset on kaggle and thought it would be interesting to dive into it.
 
 
-![Thanks to Benjamin Voros for the picture.](_support files/milano.jpg)
+<center>
+![Thanks to Benjamin Voros for this picture of the Milan Cathedral (Duomo di Milano).](_support files/milano.jpg)
+</center>
 
 
-# Key Insights:
+# Key insights
 
 
 ## Summary:
 
-* the region did not prove to be a significant predictor of the price. Rather, the proximity to the city centre was shown to be more important
+* we used three different models in our project: 
 
-![1](figures/regions-1.png)
+  - **Stepwise Regression** (Rsquared 0.432)
+  - **Gradient Boosting Machine** (Rsquared 0.446)
+  - **Random Forrest** (Rsquared 0.486)
 
-* we used three different models in our project: Stepwise Regression, Gradient Boosting Machine and Random Forrest. The Random Forrest model was proven to be the most optimal model in terms of Rsquared (0.46), MAE (\$30) and RMSE (\$42)
+* the **Random Forrest** model was proven to be the most optimal model:
 
-![2](figures/RF-1.png)
+  - **Rsquared** (0.486)
+  - **MAE** (\$29) 
+  - **RMSE** (\$42)
 
-* while this model has a similar or higher Rsquared values to that of other AirBnb analyses (ie. Milan, New York), it is not high enough to provide an accurate predicton, shown by an average error of around $30
+![RF](figures/RF-1.png)
 
+* while this model has a similar or higher Rsquared to that of other AirBnb analyses (ie. Milan, New York), it is not high enough to provide an accurate predicton, shown by an average error of ~$29
 
-![3](figures/RF2-1.png)
+![RF2](figures/RF2-1.png)
 
-* the most important variables were shown to be the number of bedrooms, bathrooms, reviews, people to accommodate and the zipcode
+* the most important variables were shown to be the number of **bedrooms**, **bathrooms**, **reviews**, and **number of people to accommodate**
 
-![4](figures/factors-1.png)
+![factors](figures/factors-1.png)
+
+* the **region** did not prove to be a significant predictor of the price. Rather, the proximity to the city centre was shown to be more important, as shown by the **latitude**, **longitude** or **zipcode group**
+
+![regions](figures/zipcode group-1.png)
+
+* the usual **services** we look for when booking accommodation (Wi-Fi, heating, kitchen, etc) were not shown to be important in predicting prices, given that most apartments have them and thus, they weren't enough to justify a higher price
 
 
 **NB**: A logarithmic approach to the price prediction model was also used outside of this analyis. However, I decided against including that in this wrap-up due to the following:
 
 * it did not produce significantly better results
-* it would make the wrap-up a longer longer (almost 2x the length of the current version)
+* it would make the wrap-up a lot longer (almost 2x the length of the current version)
 * its stats are not as straightforward to understand
 
 
-## Next steps / Recommendations:
+## Next steps / recommendations:
 
-* there are a number of variables which are not included in this dataset such as apartment size, picture analysis, text of the reviews and the description of the property which would have improved the accuracy of the model
-* it might also prove helpful to develop a dashboard where the user can input apartment values and receive a prediction range that they should consider using 
+* there are a number of variables which are not included in this dataset such as apartment size, picture analysis, text of the reviews and the description of the property which would have improved the accuracy of the model. Assessing these would likely improve the performance of the prediction model
+* it might also prove helpful to develop a dashboard where the user can input variables and receive a prediction range that they might want to consider
 
 
 ## Where did the data come from?
 
-Dataset available from kaggle (link below), made available by Antonio Mastrandrea and representative of the AirBnb data in July 2019.
+The dataset was downloaded from kaggle (link below). It was made available by Antonio Mastrandrea and it is representative of the AirBnb data in July 2019.
 
 https://www.kaggle.com/antoniokaggle/milan-airbnb-open-data-only-entire-apartments
 
@@ -85,7 +98,7 @@ https://www.kaggle.com/antoniokaggle/milan-airbnb-open-data-only-entire-apartmen
 # Extended analysis
 
 
-Full project available:
+Full project available
 
-* at the following [link](http://htmlpreview.github.io/?https://github.com/peterhontaru/AirBnb-Milano-Price-Prediction/blob/master/AirBnb-Milan.html), in HTML format
+* at the following [link](http://htmlpreview.github.io/?https://github.com/peterhontaru/Price-Prediction-AirBnb-Milan-Apartments/blob/master/AirBnb-Milan.html), in HTML format
 * in the **AirBnb-Milan.md** file of this repo (however, I recommend previewing it at the link above since it originally designed as a html document)
