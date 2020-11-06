@@ -10,7 +10,7 @@
         code_folding: hide
         code_download: true
         
-        fig_width: 8 
+        fig_width: 9 
         fig_height: 4
         fig_align: "center"
         
@@ -19,7 +19,7 @@
         
         keep_md: true
         
-    title: "AirBnb - Milan - Price Prediction Model"
+    title: "Price Prediction - AirBnb Apartments in Milan"
     subtitle: "Exploratory Data Analysis and Price Prediction Model"
     author: "by Peter Hontaru"
 ---
@@ -64,7 +64,7 @@ knitr::opts_chunk$set(
 
 ## Why this dataset?
 
-I've always been fascinated with the italian culture, history, places (and food!), so much so that this year I've started learning Italian. While looking to work on a data science project, I found this dataset on kaggle and thought it would be interesting to dive into it.
+I've always been fascinated by the italian culture, history, places and food, so much so that this year I've started learning Italian. While looking to work on a data science project, I found this dataset on kaggle and thought it would be interesting to dive into it.
 
 
 <center>
@@ -76,12 +76,18 @@ I've always been fascinated with the italian culture, history, places (and food!
 
 ## Summary:
 
-* we used three different models in our project: **Stepwise Regression**(Rsquared 0.432), **Gradient Boosting Machine**(0.446) and **Random Forrest**(0.486). 
-* The Random Forrest model was proven to be the most optimal model in terms of Rsquared(0.486), MAE (\$29) and RMSE (\$42)
-* while this model has a similar or higher Rsquared values to that of other AirBnb analyses (ie. Milan, New York), it is not high enough to provide an accurate predicton, shown by an average error of ~$29
+* we used three different models in our project: 
+  * **Stepwise Regression**(Rsquared 0.432)
+  * **Gradient Boosting Machine**(0.446)
+  * **Random Forrest**(0.486)
+* the **Random Forrest** model was proven to be the most optimal model:
+  * **Rsquared**(0.486)
+  * **MAE** (\$29)
+  * **RMSE** (\$42)
+* while this model has a similar or higher Rsquared to that of other AirBnb analyses (ie. Milan, New York), **it is not high enough to provide an accurate predicton**, shown by an average error of ~$29, **but precise enough to provide a range**
 * the most important variables were shown to be the number of **bedrooms**, **bathrooms**, **reviews**, and **number of people to accommodate**
-* the **region** did not prove to be a significant predictor of the price. Rather, the proximity to the city centre was shown to be more important, as shown by **latitude**, **longitude** or **zipcode group**
-* the usual **services** we look for when booking accommodation (Wifi, heating, kitchen, etc) were not shown to be important in predicting prices, given that most apartments had them and thus, they weren't enough to justify a higher price
+* the **region** did not prove to be a significant predictor of the price. Rather, the proximity to the city centre was shown to be more important, as shown by the **latitude**, **longitude** or **zipcode group**
+* the usual **services** we look for when booking accommodation (Wi-Fi, heating, kitchen, etc) were not shown to be important in predicting prices, given that most apartments have them and thus, they weren't enough to justify a higher price
 
 
 **NB**: A logarithmic approach to the price prediction model was also used outside of this analyis. However, I decided against including that in this wrap-up due to the following:
@@ -93,13 +99,13 @@ I've always been fascinated with the italian culture, history, places (and food!
 
 ## Next steps / Recommendations:
 
-* there are a number of variables which are not included in this dataset such as apartment size, picture analysis, text of the reviews and the description of the property which would have improved the accuracy of the model
+* there are a number of variables which are not included in this dataset such as apartment size, picture analysis, text of the reviews and the description of the property which would have improved the accuracy of the model. Assessing these would likely improve the performance of the prediction model
 * it might also prove helpful to develop a dashboard where the user can input variables and receive a prediction range that they might want to consider
 
 
 ## Where did the data come from?
 
-The dataset was downloaded from kaggle (link below), made available by Antonio Mastrandrea and it is representative of the AirBnb data in July 2019.
+The dataset was downloaded from kaggle (link below). It was made available by Antonio Mastrandrea and it is representative of the AirBnb data in July 2019.
 
 https://www.kaggle.com/antoniokaggle/milan-airbnb-open-data-only-entire-apartments
 
@@ -299,7 +305,7 @@ ggcorrplot(corr, method = "square",
 
 * unsurprisingly, **the total price correlated with the number of bedrooms, bathrooms and the number of people it accommodates**
 * to note that there was a **higher correlation with the number of bathrooms than the bedrooms**. This could be due to the fact that some apartments have an artificially higher number of bedrooms, but not bathrooms
-* there is a **positive correlation between the superhost status and the rating**. This might mean that superhosts are more likely to be experienced landlords and thus be able to provide a better customer experience
+* there is a **positive correlation between the superhost status and the rating**. This might mean that superhosts are more likely to be experienced landlords and provide a better customer experience
 
 
 ## What does the price distribution look like across all regions?
@@ -356,7 +362,7 @@ ggplot(data_by_region, aes(Region, count, fill = Region))+
         geom_label(aes(Region, avg_price*10, label = paste("$", round(avg_price), sep = "")), fill = "black", col = "white")+
         labs(y = "Total apartments / Average daily price",
              x = "Region",
-             title = "Region 1 has a higher average than all others due its central location and it is the most prominent")+
+             title = "Region 1 has a higher average than all others and it is the most prominent")+
         theme(legend.position = "none")    
 ```
 
@@ -499,7 +505,7 @@ ggplot(data = data_zipcode_quantile_group, aes(zipcode_quantile_group, count, fi
         scale_fill_gradient(low = "yellow", high = "red")+
         labs(y = "Total apartments",
              x = "Zipcode quintile",
-             title = "The zipcode quintile group with the highest prices has a higher proportion of apartments (45%)",
+             title = "The zipcode quintile with the highest prices has a higher proportion of apartments (45%)",
              subtitle = "Each zipcode quintile contains an equal amount of zipcodes")+
         theme(legend.position = "none")
 ```
@@ -517,14 +523,15 @@ ggplot(raw_data, aes(longitude, latitude)) +
         labs(x="", 
              y="",
              col = "Zipcode quintile qroup",
-             title="Rather than region, price difference might be better predicted by proximity to the city centre\nThis implies that the inner areas of each region have a higher average price than the outer areas")+
+             title="Rather than region, price difference might be better predicted by proximity to the city centre",
+             subtitle = "This implies that the inner areas of each region have a higher average price than the outer areas")+
         scale_colour_gradient(low = "yellow", high = "red")+
         theme(legend.position = "top",
               axis.ticks.y = element_blank(),axis.text.y = element_blank(),
               axis.ticks.x = element_blank(),axis.text.x = element_blank())
 ```
 
-<img src="figures/unnamed-chunk-13-1.png" width="100%" />
+<img src="figures/zipcode group-1.png" width="100%" />
 
 ```r
               #plot.title = element_text(lineheight=.8, face="bold", vjust=1))
@@ -550,7 +557,7 @@ Irrespective of region, the highest prices seem to be those within the zipcodes 
   theme(legend.position = "top")
 ```
 
-<img src="figures/unnamed-chunk-14-1.png" width="100%" />
+<img src="figures/unnamed-chunk-13-1.png" width="100%" />
 
 
 There could be a multitude of reasons for this to happen whether due to popularity, new addiiton or places being closed but not removed from the website. Unfortunately, we do not have any data to dig into it further.
@@ -578,7 +585,7 @@ ggplot(raw_data, aes(longitude, latitude)) +
         legend.position = "top")
 ```
 
-<img src="figures/unnamed-chunk-15-1.png" width="100%" />
+<img src="figures/unnamed-chunk-14-1.png" width="100%" />
 
 
 ### by zipcode quintile group {-}
@@ -601,7 +608,7 @@ ggplot(raw_data, aes(longitude, latitude)) +
         legend.position = "top")
 ```
 
-<img src="figures/unnamed-chunk-16-1.png" width="100%" />
+<img src="figures/unnamed-chunk-15-1.png" width="100%" />
 
 
 ## What does the aggregated availability look like over 365 days? {.tabset .tabset-fade .tabset-pills}
@@ -627,7 +634,7 @@ ggplot(data = data_availability_by_region, aes(Region, diff_from_mean, fill = di
         theme(legend.position = "none")
 ```
 
-<img src="figures/unnamed-chunk-17-1.png" width="100%" />
+<img src="figures/unnamed-chunk-16-1.png" width="100%" />
 
 
 ### by Zipcode Quantile Group {-}
@@ -650,7 +657,7 @@ ggplot(data = data_availability_by_zipcode_quantile_group, aes(zipcode_quantile_
         theme(legend.position = "none")
 ```
 
-<img src="figures/unnamed-chunk-18-1.png" width="100%" />
+<img src="figures/unnamed-chunk-17-1.png" width="100%" />
 
 
 ## What type of extra services are available during an AirBnb stay in Milan?
@@ -676,7 +683,7 @@ ggplot(data_Extras, aes(Extras, Availability))+
   coord_flip()
 ```
 
-<img src="figures/unnamed-chunk-19-1.png" width="100%" />
+<img src="figures/unnamed-chunk-18-1.png" width="100%" />
 
 
 ## Are there any differences in survey ratings? {.tabset .tabset-fade .tabset-pills}
@@ -696,7 +703,7 @@ ggplot(raw_data, aes(review_scores_rating, Region, fill = factor(stat(quantile))
   scale_fill_viridis_d(name = "Quartiles")
 ```
 
-<img src="figures/unnamed-chunk-20-1.png" width="100%" />
+<img src="figures/unnamed-chunk-19-1.png" width="100%" />
 
 
 ### Zoomed-in Y axis (50-100) {-}
@@ -714,7 +721,7 @@ ggplot(raw_data, aes(review_scores_rating, Region, fill = factor(stat(quantile))
   coord_cartesian(xlim = c(70,100))
 ```
 
-<img src="figures/unnamed-chunk-21-1.png" width="100%" />
+<img src="figures/unnamed-chunk-20-1.png" width="100%" />
 
 
 # Regression Model
@@ -750,7 +757,7 @@ We've seen that while most of the data is under \$400 (>98%), there are some ext
 * AirBnb's target market isn't focused on luxurious escapes
 
 
-## Split our dataset
+## Data split
 
 
 Let's split the dataset into the following:
@@ -860,7 +867,7 @@ ggplot(test_data2, aes(actual_total_price, predicted_total_price))+
        y = "Predicted Price")
 ```
 
-<img src="figures/unnamed-chunk-27-1.png" width="100%" />
+<img src="figures/unnamed-chunk-26-1.png" width="100%" />
 
 
 ## Model 2 - Gradient Boosting Machine
@@ -910,7 +917,7 @@ ggplot(test_data2, aes(actual_total_price, predicted_total_price))+
        y = "Predicted Price")
 ```
 
-<img src="figures/unnamed-chunk-29-1.png" width="100%" />
+<img src="figures/unnamed-chunk-28-1.png" width="100%" />
 
 
 ## Model 3 - Random Forrest
@@ -1107,11 +1114,11 @@ ggplot(test_data2, aes(Residuals))+
   scale_x_continuous(labels = dollar_format(), n.breaks = 10)+
   labs(x="Residuals (prediction error)",
        y= "Total occurences",
-       title = "Most data has an error of $30 but there are some outliers of over $100 and under $200",
+       title = "Most errors are up to +/- $30. There are some outliers of over $100 and under $200",
        subtitle = "Data is displayed in buckets of $10")
 ```
 
-<img src="figures/unnamed-chunk-34-1.png" width="100%" />
+<img src="figures/unnamed-chunk-33-1.png" width="100%" />
 
 
 ## Visualising the Random Forrest Model
@@ -1142,6 +1149,8 @@ ggplot(test_data2, aes(actual_total_price, Residuals))+
 ```
 
 <img src="figures/RF2-1.png" width="100%" />
+
+
 
 
 ## Potential reasons for the "medium" Rsquared:

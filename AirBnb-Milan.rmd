@@ -76,11 +76,14 @@ I've always been fascinated by the italian culture, history, places and food, so
 ## Summary:
 
 * we used three different models in our project: 
-- **Stepwise Regression**(Rsquared 0.432)
-- **Gradient Boosting Machine**(0.446)
-- **Random Forrest**(0.486)
-* the **Random Forrest** model was proven to be the most optimal model in terms of **Rsquared**(0.486), **MAE** (\$29) and **RMSE** (\$42)
-* while this model has a similar or higher Rsquared to that of other AirBnb analyses (ie. Milan, New York), it is not high enough to provide an accurate predicton, shown by an average error of ~$29
+  * **Stepwise Regression**(Rsquared 0.432)
+  * **Gradient Boosting Machine**(0.446)
+  * **Random Forrest**(0.486)
+* the **Random Forrest** model was proven to be the most optimal model:
+  * **Rsquared**(0.486)
+  * **MAE** (\$29)
+  * **RMSE** (\$42)
+* while this model has a similar or higher Rsquared to that of other AirBnb analyses (ie. Milan, New York), **it is not high enough to provide an accurate predicton**, shown by an average error of ~$29, **but precise enough to provide a range**
 * the most important variables were shown to be the number of **bedrooms**, **bathrooms**, **reviews**, and **number of people to accommodate**
 * the **region** did not prove to be a significant predictor of the price. Rather, the proximity to the city centre was shown to be more important, as shown by the **latitude**, **longitude** or **zipcode group**
 * the usual **services** we look for when booking accommodation (Wi-Fi, heating, kitchen, etc) were not shown to be important in predicting prices, given that most apartments have them and thus, they weren't enough to justify a higher price
@@ -857,7 +860,7 @@ ggplot(test_data2, aes(Residuals))+
   scale_x_continuous(labels = dollar_format(), n.breaks = 10)+
   labs(x="Residuals (prediction error)",
        y= "Total occurences",
-       title = "Most data has an error of $30 but there are some outliers of over $100 and under $200",
+       title = "Most errors are up to +/- $30. There are some outliers of over $100 and under $200",
        subtitle = "Data is displayed in buckets of $10")
 ```
 
@@ -889,7 +892,7 @@ ggplot(test_data2, aes(actual_total_price, Residuals))+
 ```
 
 
-```{r}
+```{r thumbnail, include=FALSE}
 ggplot(test_data2, aes(actual_total_price, Residuals))+
   geom_hline(yintercept = 0, size = 3, color = "grey52")+
   geom_point(alpha = 0.5, color = "blue")+
