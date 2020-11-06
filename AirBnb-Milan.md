@@ -20,7 +20,7 @@
         keep_md: true
         
     title: "Price Prediction - AirBnb Apartments in Milan"
-    subtitle: "Exploratory Data Analysis and Price Prediction Model"
+    subtitle: "Can we predict the price of an AirBnb apartment in Milan?"
     author: "by Peter Hontaru"
 ---
 
