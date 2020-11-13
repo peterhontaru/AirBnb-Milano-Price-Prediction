@@ -113,5 +113,5 @@ Full project available
     [link](http://htmlpreview.github.io/?https://github.com/peterhontaru/Price-Prediction-AirBnb-Milan-Apartments/blob/master/AirBnb-Milan.html),
     in HTML format
   - in the **AirBnb-Milan.md** file of this repo (however, I recommend
-    previewing it at the link above since it originally designed as a
-    html document)
+    previewing it at the link above since it was originally designed as
+    a html document)
