@@ -373,7 +373,7 @@ ggplot(data = data_zipcode_quantile_group, aes(zipcode_quantile_group, count, fi
 Let's visualise this data on the map!
 
 
-```{r zipcode group}
+```{r zipcode group, fig.height=5.5}
 ggplot(raw_data, aes(longitude, latitude)) +  
         geom_point(aes(colour = zipcode_quantile_group), size = 2)+
         labs(x="", 
@@ -829,7 +829,7 @@ plot(rf_model,
 ## What were the most important variables?
 
 
-```{r factors}
+```{r factors, fig.height=5.5}
 imp <- varImp(rf_model)
 
 plot(imp, top = 20,
