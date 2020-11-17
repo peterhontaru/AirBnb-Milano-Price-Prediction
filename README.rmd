@@ -8,13 +8,13 @@
     
       code_folding: hide
       
-    title: "Price Prediction - AirBnb Apartments in Milan"
+    title: "Price Prediction - Airbnb Apartments in Milan"
     subtitle: "Exploratory Data Analysis and Price Prediction Model"
     author: "by Peter Hontaru"
 ---
 
 
-![AirBnb logo](_support files/airbnb.png)
+![Airbnb logo](_support files/airbnb.png)
 
 
 # Introduction
@@ -29,7 +29,7 @@
 
 * **landlords** looking to calculate the optimal price for their apartment
 * **tourists** trying understand if they're getting a good deal
-* *those looking to find a model that might fit other datasets, since the AirBnb data is generally standardised across countries/cities*
+* *those looking to find a model that might fit other datasets, since the Airbnb data is generally standardised across countries/cities*
 
 
 ## Why this dataset?
@@ -61,7 +61,7 @@ I've always been fascinated by the italian culture, history, places and food, so
 
 ![RF](figures/RF-1.png)
 
-* while this model has a similar or higher Rsquared to that of other AirBnb analyses (ie. Milan, New York), it is not high enough to provide an accurate predicton, shown by an average error of ~$29
+* while this model has a similar or higher Rsquared to that of other Airbnb analyses (ie. Milan, New York), it is not high enough to provide an accurate predicton, shown by an average error of ~$29
 
 ![RF2](figures/RF2-1.png)
 
@@ -91,7 +91,7 @@ I've always been fascinated by the italian culture, history, places and food, so
 
 ## Where did the data come from?
 
-The dataset was downloaded from kaggle (link below). It was made available by Antonio Mastrandrea and it is representative of the AirBnb data in July 2019.
+The dataset was downloaded from kaggle (link below). It was made available by Antonio Mastrandrea and it is representative of the Airbnb data in July 2019.
 
 https://www.kaggle.com/antoniokaggle/milan-airbnb-open-data-only-entire-apartments
 
@@ -101,5 +101,5 @@ https://www.kaggle.com/antoniokaggle/milan-airbnb-open-data-only-entire-apartmen
 
 Full project available
 
-* at the following [link](http://htmlpreview.github.io/?https://github.com/peterhontaru/Price-Prediction-AirBnb-Milan-Apartments/blob/master/AirBnb-Milan.html), in HTML format
+* at the following [link](http://htmlpreview.github.io/?https://github.com/peterhontaru/Price-Prediction-Airbnb-Milan-Apartments/blob/master/AirBnb-Milan.html), in HTML format
 * in the **AirBnb-Milan.md** file of this repo (however, I recommend previewing it at the link above since it was originally designed as a html document)

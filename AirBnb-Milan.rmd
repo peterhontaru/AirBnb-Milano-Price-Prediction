@@ -19,8 +19,8 @@
         
         keep_md: true
         
-    title: "Price Prediction - AirBnb Apartments in Milan"
-    subtitle: "Can we predict the price of an AirBnb apartment in Milan?"
+    title: "Price Prediction - Airbnb Apartments in Milan"
+    subtitle: "Can we predict the price of an Airbnb apartment in Milan?"
     author: "by Peter Hontaru"
 ---
 
@@ -41,7 +41,7 @@ knitr::opts_chunk$set(
 
 <center>
 
-![AirBnb logo](_support files/airbnb.png)
+![Airbnb logo](_support files/airbnb.png)
 
 </center>
 
@@ -58,7 +58,7 @@ knitr::opts_chunk$set(
 
 * **landlords** looking to calculate the optimal price for their apartment
 * **tourists** trying understand if they're getting a good deal
-* *those looking to find a model that might fit other datasets, since the AirBnb data is generally standardised across countries/cities*
+* *those looking to find a model that might fit other datasets, since the Airbnb data is generally standardised across countries/cities*
 
 
 ## Why this dataset?
@@ -83,7 +83,7 @@ I've always been fascinated by the italian culture, history, places and food, so
   * **Rsquared**(0.486)
   * **MAE** (\$29)
   * **RMSE** (\$42)
-* while this model has a similar or higher Rsquared to that of other AirBnb analyses (ie. Milan, New York), **it is not high enough to provide an accurate predicton**, shown by an average error of ~$29, **but precise enough to provide a range**
+* while this model has a similar or higher Rsquared to that of other Airbnb analyses (ie. Milan, New York), **it is not high enough to provide an accurate predicton**, shown by an average error of ~$29, **but precise enough to provide a range**
 * the most important variables were shown to be the number of **bedrooms**, **bathrooms**, **reviews**, and **number of people to accommodate**
 * the **region** did not prove to be a significant predictor of the price. Rather, the proximity to the city centre was shown to be more important, as shown by the **latitude**, **longitude** or **zipcode group**
 * the usual **services** we look for when booking accommodation (Wi-Fi, heating, kitchen, etc) were not shown to be important in predicting prices, given that most apartments have them and thus, they weren't enough to justify a higher price
@@ -104,7 +104,7 @@ I've always been fascinated by the italian culture, history, places and food, so
 
 ## Where did the data come from?
 
-The dataset was downloaded from kaggle (link below). It was made available by Antonio Mastrandrea and it is representative of the AirBnb data in July 2019.
+The dataset was downloaded from kaggle (link below). It was made available by Antonio Mastrandrea and it is representative of the Airbnb data in July 2019.
 
 https://www.kaggle.com/antoniokaggle/milan-airbnb-open-data-only-entire-apartments
 
@@ -496,7 +496,7 @@ ggplot(data = data_availability_by_zipcode_quantile_group, aes(zipcode_quantile_
 ```
 
 
-## What type of extra services are available during an AirBnb stay in Milan?
+## What type of extra services are available during an Airbnb stay in Milan?
 
 
 ```{r}
@@ -580,7 +580,7 @@ We've seen that while most of the data is under \$400 (>98%), there are some ext
 * if you're a tourist, you're unlikely to check online prices if you can even consider paying ~$3,000 a night
 * similarly, as a landlord of a luxury property, you probably don't need to compare your price to others'
 * there is very limited data
-* AirBnb's target market isn't focused on luxurious escapes
+* Airbnb's target market isn't focused on luxurious escapes
 
 
 ## Data split
@@ -898,7 +898,7 @@ ggplot(test_data2, aes(actual_total_price, Residuals))+
   geom_point(alpha = 0.5, color = "blue")+
   geom_smooth(method = "loess", col = "red", se = FALSE)+
   scale_x_continuous(labels = dollar_format())+
-  labs(title = "Price Prediction Model - AirBnb apartments in Milan",
+  labs(title = "Price Prediction Model - Airbnb apartments in Milan",
        x = "Actual Price",
        y="Residuals (prediction error)")
 ```
@@ -906,7 +906,7 @@ ggplot(test_data2, aes(actual_total_price, Residuals))+
 ## Potential reasons for the "medium" Rsquared:
 
 
-While this model has a similar or higher Rsquared values to that of other AirBnb datasets (ie. Milan, New York), it is not high enough to provide an accurate predicton, shown by an average error of around $29. A few reasons for this could be:
+While this model has a similar or higher Rsquared values to that of other Airbnb datasets (ie. Milan, New York), it is not high enough to provide an accurate predicton, shown by an average error of around $29. A few reasons for this could be:
 
 * the size of the apartment (squared feet/meters) is not included in the dataset and thus, in the model; this metric might be a better predictor than the number of bedrooms/bathrooms
 * any special characteristics of an apartment (ie. view of the popular Cathedral, situated in a popular square, in a historic building, etc)

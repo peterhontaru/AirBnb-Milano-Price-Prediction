@@ -1,8 +1,8 @@
-Price Prediction - AirBnb Apartments in Milan
+Price Prediction - Airbnb Apartments in Milan
 ================
 by Peter Hontaru
 
-![AirBnb logo](_support%20files/airbnb.png)
+![Airbnb logo](_support%20files/airbnb.png)
 
 # Introduction
 
@@ -18,7 +18,7 @@ the most?**
     apartment
   - **tourists** trying understand if they’re getting a good deal
   - *those looking to find a model that might fit other datasets, since
-    the AirBnb data is generally standardised across countries/cities*
+    the Airbnb data is generally standardised across countries/cities*
 
 ## Why this dataset?
 
@@ -54,7 +54,7 @@ kaggle and thought it would be interesting to dive into it.
 ![RF](figures/RF-1.png)
 
   - while this model has a similar or higher Rsquared to that of other
-    AirBnb analyses (ie. Milan, New York), it is not high enough to
+    Airbnb analyses (ie. Milan, New York), it is not high enough to
     provide an accurate predicton, shown by an average error of \~$29
 
 ![RF2](figures/RF2-1.png)
@@ -100,7 +100,7 @@ in this wrap-up due to the following:
 ## Where did the data come from?
 
 The dataset was downloaded from kaggle (link below). It was made
-available by Antonio Mastrandrea and it is representative of the AirBnb
+available by Antonio Mastrandrea and it is representative of the Airbnb
 data in July 2019.
 
 <https://www.kaggle.com/antoniokaggle/milan-airbnb-open-data-only-entire-apartments>
@@ -110,7 +110,7 @@ data in July 2019.
 Full project available
 
   - at the following
-    [link](http://htmlpreview.github.io/?https://github.com/peterhontaru/Price-Prediction-AirBnb-Milan-Apartments/blob/master/AirBnb-Milan.html),
+    [link](http://htmlpreview.github.io/?https://github.com/peterhontaru/Price-Prediction-Airbnb-Milan-Apartments/blob/master/AirBnb-Milan.html),
     in HTML format
   - in the **AirBnb-Milan.md** file of this repo (however, I recommend
     previewing it at the link above since it was originally designed as
